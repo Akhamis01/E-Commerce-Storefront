@@ -1,0 +1,111 @@
+.login {
+  position: absolute;
+  top: 191px;
+  left: calc(50% - 88px);
+  font-size: 64px;
+  display: inline-block;
+  color: #000;
+  width: 175px;
+  height: 61px;
+}
+.loginBox {
+  position: absolute;
+  top: 361px;
+  left: 338px;
+  border-radius: 21px;
+  background-color: #d9d9d9;
+  width: 763px;
+  height: 425px;
+}
+.loginMainChild {
+  position: absolute;
+  top: 664px;
+  left: 770px;
+  border-radius: var(--br-5xs);
+  background-color: var(--color-mediumblue);
+  width: 182px;
+  height: 65px;
+}
+.forgot {
+  margin: 0;
+}
+.forgotPassword {
+  position: absolute;
+  top: 670px;
+  left: 801px;
+  font-size: 20px;
+  font-weight: 500;
+  display: inline-block;
+  width: 120px;
+  height: 48px;
+  background-color: transparent;
+}
+.loginMainItem {
+  position: absolute;
+  top: 458px;
+  left: 418px;
+  border-radius: var(--br-5xs);
+  background-color: var(--color-whitesmoke);
+  width: 604px;
+  height: 55px;
+}
+.email {
+  position: absolute;
+  top: 467px;
+  left: 429px;
+  font-weight: 500;
+  color: var(--color-dimgray);
+  text-align: left;
+  display: inline-block;
+  width: 173px;
+  height: 38px;
+}
+.loginMainInner {
+  position: absolute;
+  top: 561px;
+  left: 418px;
+  border-radius: var(--br-5xs);
+  background-color: var(--color-whitesmoke);
+  width: 604px;
+  height: 55px;
+}
+.password1 {
+  position: absolute;
+  top: 570px;
+  left: 429px;
+  font-weight: 500;
+  color: var(--color-dimgray);
+  text-align: left;
+  display: inline-block;
+  width: 173px;
+  height: 38px;
+}
+.rectangleDiv {
+  position: absolute;
+  top: 664px;
+  left: 488px;
+  border-radius: var(--br-5xs);
+  background-color: var(--color-mediumblue);
+  width: 182px;
+  height: 65px;
+}
+.submit {
+  position: absolute;
+  top: 675px;
+  left: 519px;
+  font-weight: 500;
+  display: inline-block;
+  width: 120px;
+  height: 43px;
+  background-color: transparent;
+}
+.loginMain {
+  background-color: #e3e3e3;
+  width: 1440px;
+  height: 1024px;
+  overflow: hidden;
+  text-align: center;
+  font-size: var(--font-size-13xl);
+  color: var(--color-whitesmoke);
+  font-family: var(--font-raleway);
+}

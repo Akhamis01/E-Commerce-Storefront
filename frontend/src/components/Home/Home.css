@@ -1,0 +1,16 @@
+/* Styles for Home.js */
+
+/* Center the content vertically and horizontally */
+div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0; /* Light gray background color */
+}
+
+/* Style the heading */
+h1 {
+  font-size: 2rem;
+  color: #333; /* Dark gray text color */
+}
