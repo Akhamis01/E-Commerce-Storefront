@@ -26,10 +26,13 @@ def logged_in(f):
             return '<h1>Must be logged in to access this page</h1>'
     return wrap
 
+
+
 @app.route('/login', methods = ['POST'])
 def login():
     if request.method == 'POST':
-        usersRef = db.collection('users')
+        print('LOGIN POST')
+        usersRef = db.collection('Users')
         data = request.json
         username = str(data['username'])
         password = str(data['password'])
@@ -40,15 +43,23 @@ def login():
             return jsonify(alert="error")
 
         if username == userInfo['username'] and password == userInfo['password']:
+            print('lollllll2')
+
+
             session['loggedIn'] = True
             session['username'] = username
             session['id'] = userID
-            session['userType'] = userInfo['userType']
+            session['isAdmin'] = userInfo['isAdmin']
             return jsonify(alert="success")
 
         return jsonify(alert="error")
 
     return jsonify(alert="error")
+
+
+
+
+
 
 
 @app.route('/register', methods = ['POST'])

@@ -8,7 +8,7 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
-    const history = useNavigate();
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -22,25 +22,27 @@ const Login = () => {
             body:JSON.stringify({username: username, password: password})
         }).then(res => res.json()).then(res => {
             if(res['alert'] !== 'error'){
-                history.push("/home");
+                navigate("/home");
+                console.log('lol1');
             } else{
                 setError(true);
+                console.log('lol2');
             }
         });
     };
 
 
 
-    const TestSubmit = (e) => {
-        console.log('done')
-        fetch("/home", {
-            method:"GET",
-            cache: "no-cache",
-            headers:{
-                "Content-type":"application/json",
-            },
-        })
-    };
+    // const TestSubmit = (e) => {
+    //     console.log('done')
+    //     fetch("/home", {
+    //         method:"GET",
+    //         cache: "no-cache",
+    //         headers:{
+    //             "Content-type":"application/json",
+    //         },
+    //     })
+    // };
 
 
     return (
@@ -76,7 +78,7 @@ const Login = () => {
                     }
                 </form>
             </div>
-            <a href="#" onClick={TestSubmit} type="button" className="btn btn-primary me-3">TEST BUTTON</a>
+            {/* <a href="#" onClick={TestSubmit} type="button" className="btn btn-primary me-3">TEST BUTTON</a> */}
         </div>
 
     );
