@@ -1,0 +1,52 @@
+#_login{
+    color: white;
+}
+
+.login-body{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-image: url("https://wallpaperset.com/w/full/c/4/8/45474.jpg");
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    object-fit: fill;
+}
+
+.container{
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    max-width: 50%;
+    padding: 16px;
+    background: rgba(180, 180, 180, 0.9);
+    filter: brightness(110%);
+}
+.login-form{
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    background: whitesmoke;
+}
+.btn{
+    margin-top: 10px;
+    background-color: rgb(1, 39, 143);
+    border: 1px solid #563d7c;
+}
+.btn:hover{
+    background-color: rgb(28, 81, 224);
+    border: 1px solid #563d7c;
+}
+
+@media (max-width: 576px) {
+    .container{
+        max-width: 75%;
+    }
+}

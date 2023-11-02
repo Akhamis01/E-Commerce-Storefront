@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import $ from 'jquery';
+import 'bootstrap/dist/css/bootstrap.css';
 
 import './Login.css';
+import LoadingScreen from '../LoadingScreen/LoadingScreen';
 
 
 const Login = () => {
@@ -9,6 +12,20 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
     const navigate = useNavigate();
+
+    useEffect( () => {
+        $(window).on('load', function(){
+            setTimeout(function() {
+                $('.login-form').fadeIn('slow');
+            }, 750);
+        });
+
+        return () => {
+            console.log("unmounted");
+        };
+    }, []);
+
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -23,31 +40,17 @@ const Login = () => {
         }).then(res => res.json()).then(res => {
             if(res['alert'] !== 'error'){
                 navigate("/home");
-                console.log('lol1');
             } else{
                 setError(true);
-                console.log('lol2');
             }
         });
     };
 
 
-
-    // const TestSubmit = (e) => {
-    //     console.log('done')
-    //     fetch("/home", {
-    //         method:"GET",
-    //         cache: "no-cache",
-    //         headers:{
-    //             "Content-type":"application/json",
-    //         },
-    //     })
-    // };
-
-
     return (
         <div className="login-body">
-            <div className="login-form">
+            <LoadingScreen />
+            <div className="login-form" style={{display: "none"}}>
                 <form onSubmit={handleSubmit} className="container" action="/main" method="get">
                     <h1>Login</h1>
                         
@@ -78,7 +81,6 @@ const Login = () => {
                     }
                 </form>
             </div>
-            {/* <a href="#" onClick={TestSubmit} type="button" className="btn btn-primary me-3">TEST BUTTON</a> */}
         </div>
 
     );
