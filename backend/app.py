@@ -91,6 +91,7 @@ def getUsername():
 
 @app.route("/home")
 def main():
+    print('TEST WORKED')
     return jsonify(name="home")
 
 @app.route("/logout", methods = ['GET'])
