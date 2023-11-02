@@ -77,6 +77,28 @@ def register():
 
     return jsonify(alert="error")
 
+
+@app.route("/getusertype")
+@logged_in
+def getUserType():
+    return jsonify(type = str(session['userType']))
+
+
+@app.route("/getusername")
+@logged_in
+def getUsername():
+    return jsonify(username = str(session['username']))
+
 @app.route("/home")
 def main():
     return jsonify(name="home")
+
+@app.route("/logout", methods = ['GET'])
+@logged_in
+def logout():
+    session.clear()
+    return jsonify(alert="success")
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
