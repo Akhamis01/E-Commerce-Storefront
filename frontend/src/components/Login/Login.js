@@ -51,7 +51,7 @@ const Login = () => {
         <div className="login-body">
             <LoadingScreen />
             <div className="login-form" style={{display: "none"}}>
-                <form onSubmit={handleSubmit} className="container" action="/main" method="get">
+                <form onSubmit={handleSubmit} className="container" action="/home" method="get">
                     <h1>Login</h1>
                         
                     <div className="form-group">
@@ -73,7 +73,7 @@ const Login = () => {
                     }
 
                     <hr/>
-                    <a className="btn btn-primary btn-rounded" type="submit" href="/registration">Register here!</a>
+                    <a className="btn btn-primary btn-rounded" type="submit" href="/registration">Register Here!</a>
                     {
                         (error) ? (
                             <p style={{color:"red"}}>Incorrect username and/or password. Please try again</p>

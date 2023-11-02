@@ -8,7 +8,9 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-image: url("https://wallpaperset.com/w/full/c/4/8/45474.jpg");
+    /* background-image: url("https://wallpaperset.com/w/full/c/4/8/45474.jpg"); */
+    background-image: url("https://images.pexels.com/photos/2387818/pexels-photo-2387818.jpeg?cs=srgb&dl=pexels-adrien-olichon-2387818.jpg&fm=jpg://wallpaperset.com/w/full/c/4/8/45474.jpg");
+    background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;

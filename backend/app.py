@@ -54,34 +54,39 @@ def login():
     return jsonify(alert="error")
 
 
+
 @app.route('/register', methods = ['POST'])
 def register():
     if request.method == 'POST':
         usersRef = db.collection('Users')
         data = request.json
         username = str(data['username'])
+        password = str(data['password'])
         email = str(data['email'])
         phone = str(data['phone'])
+        address = str(data['address'])
         firstName = str(data['firstName'])
         lastName = str(data['lastName'])
-        address = str(data['address'])
-        password = str(data['password'])
-        isAdmin = str(data['isAdmin'])
+        isAdmin = False
         userID = hashlib.sha1(username.encode('utf-8')).hexdigest()
 
         userInfo = usersRef.document(userID).get().to_dict()
         if userInfo is None:
-            usersRef.document(userID).set({'username': username, 'email': email, 'password': password, 'phone': phone, 'firstName': firstName, 'lastName': lastName, 'address': address, 'isAdmin': isAdmin})
+            usersRef.document(userID).set({'username': username, 'password': password, 'email': email, 'phone': phone, 'address': address, 'firstName': firstName, 'lastName': lastName, 'isAdmin': isAdmin})
             session['loggedIn'] = True
             session['username'] = username
             session['id'] = userID
             session['isAdmin'] = isAdmin
         else:
-            return jsonify(alert="username exists, try a different one")
+            return jsonify(alert="error")
 
         return jsonify(alert="success")
 
     return jsonify(alert="error")
+
+
+
+
 
 @app.route("/getusertype")
 @logged_in
