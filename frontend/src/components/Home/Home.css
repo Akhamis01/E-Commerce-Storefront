@@ -1,0 +1,107 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.main-body{
+    background-image: url("https://cdn.wallpapersafari.com/81/63/VtEaQF.jpg");
+}
+
+.btn-recipe{
+    opacity: 0;
+    display: block;
+}
+
+#card-recipe{
+    transition: transform .2s;
+    max-width: 20%;
+    margin-left: 35px;
+}
+
+.selected{
+    background-color: red !important;
+}
+
+#card-recipe:hover{
+    transform: scale(1.15);
+}
+
+#card-recipe:hover .btn-recipe{
+    opacity: 1;
+    transition: 0.6s ease;
+}
+
+.card-body{
+    min-height: 225px;
+}
+
+.card{
+    box-shadow: 0px 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-height: 100%;
+    margin-left: 20px;
+    text-align: center;
+    padding: auto;
+}
+
+
+.card-body{
+    max-height: 100px;
+}
+
+.card-group {
+    margin: 0 auto;
+    text-align: center;
+    font-family: arial;
+    padding: 100px;
+    padding-top: 50px;
+}
+  
+.price {
+    color: grey;
+    font-size: 22px;
+}
+  
+.card .inner-button {
+    border: none;
+    outline: 0;
+    padding: 12px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+}
+
+.main-header{
+    margin-left: 45%;
+    margin-bottom: 10px;
+}
+
+/* .card button:hover {
+    opacity: 0.7;
+} */
+
+
+.product-pic{
+    width: 100px;
+}
+
+.card-group{
+    background-image: url("https://cdn.wallpapersafari.com/81/63/VtEaQF.jpg");
+}
+
+.prod-category{
+    color: lightcoral;
+}
+
+#x {
+    position: absolute;
+    background: red;
+    color: white;
+    top: -10px;
+    right: -10px;
+}
