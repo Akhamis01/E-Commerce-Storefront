@@ -35,10 +35,12 @@ const Contact = () => {
         .then(res => res.json())
         .then(res => {
             if(res['alert'] === 'success'){
-                setError(false);
                 setName('');
                 setEmail('');
                 setMessage('');
+                setTimeout(function () {
+                    setError(false);
+                } , 3000);
             } else{
                 setError(true);
             }
@@ -51,15 +53,15 @@ const Contact = () => {
             <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="name"><b>Name</b></label>
-                        <input type="text" placeholder="Enter Name" name="name" onChange={ (event) => setName(event.target.value) } required/>
+                        <input type="text" placeholder="Enter Name" name="name"  value={name} onChange={ (event) => setName(event.target.value) } required/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="Email"><b>Email</b></label>
-                        <input type="email" placeholder="Enter Email" name="email" onChange={ (event) => setEmail(event.target.value) } required/>
+                        <input type="email" placeholder="Enter Email" name="email" value={email} onChange={ (event) => setEmail(event.target.value) } required/>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="name"><b>Name</b></label>
-                        <input type="text" placeholder="Enter Message" name="message" onChange={ (event) => setMessage(event.target.value) } required/>
+                        <label htmlFor="name"><b>Message</b></label>
+                        <textarea type="text" placeholder="Enter Message" name="message" value={message} onChange={ (event) => setMessage(event.target.value) } required/>
                     </div>
 
                     <button type="submit">Submit</button>
