@@ -5,6 +5,8 @@ import Home from './components/Home/Home';
 import Login from './components/Login/Login';
 import Registration from './components/Registration/Registration';
 import NotFound from './components/NotFound/NotFound';
+import VerificationPending from './components/Verification-Pending/Verification-Pending';
+import Verification from './components/Verification/Verification';
 
 const App = () => {
     
@@ -15,6 +17,8 @@ const App = () => {
                     <Route exact path="/home" element={<Home/>}/>
                     <Route exact path="/login" element={<Login/>}/>
                     <Route exact path="/registration" element={<Registration/>}/>
+                    <Route exact path="/verification-pending" element={<VerificationPending/>}/>
+                    <Route exact path="/verify" element={<Verification/>}/>
                     <Route exact path="*" element={<NotFound/>}/>
                 </Routes>
             </Fragment>

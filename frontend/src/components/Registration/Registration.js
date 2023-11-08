@@ -39,7 +39,7 @@ const Registration = () => {
             body:JSON.stringify({username: username, password: password, email:emailAddress, phone:phone, address:address, firstName:firstName, lastName:lastName})
         }).then(res => res.json()).then(res => {
             if(res['alert'] === 'success'){
-                navigate("/home");
+                navigate("/verification-pending");
             } else{
                 setError(true);
             }

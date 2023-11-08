@@ -7,11 +7,20 @@ import firebase_admin
 from flask_cors import CORS
 from datetime import datetime
 from firebase_admin import credentials, initialize_app, db, firestore
+from flask_mail import Mail, Message
 import hashlib
 
 app = Flask(__name__)
 app.secret_key = "12345"
 CORS(app)
+
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USERNAME'] = 'cps714group19@gmail.com'
+app.config['MAIL_PASSWORD'] = 'tmsahizvhpitrubh'
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+mail = Mail(app)
 
 cred = credentials.Certificate("./key.json")
 initialize_app(cred)
@@ -47,7 +56,13 @@ def login():
             session['username'] = username
             session['id'] = userID
             session['isAdmin'] = userInfo['isAdmin']
-            return jsonify(alert="success")
+
+            is_verified = userInfo.get('isVerified', False)
+            response_data = {
+                'alert':'success',
+                'isVerified': is_verified
+            }
+            return jsonify(response_data)
 
         return jsonify(alert="error")
 
@@ -72,8 +87,25 @@ def register():
 
         userInfo = usersRef.document(userID).get().to_dict()
         if userInfo is None:
-            usersRef.document(userID).set({'username': username, 'password': password, 'email': email, 'phone': phone, 'address': address, 'firstName': firstName, 'lastName': lastName, 'isAdmin': isAdmin})
-            session['loggedIn'] = True
+
+            verification_code = "123456"
+            msg = Message('Email Verification', sender = 'cps714group19@gmail.com', recipients=[email])
+            msg.body = f'Here is your email verification code: {verification_code}'
+            mail.send(msg)
+
+            usersRef.document(userID).set({
+                'username': username, 
+                'password': password, 
+                'email': email, 
+                'phone': phone, 
+                'address': address, 
+                'firstName': firstName, 
+                'lastName': lastName, 
+                'isAdmin': isAdmin,
+                'verification_code': verification_code,
+                'isVerified': False
+                })
+            session['loggedIn'] = False
             session['username'] = username
             session['id'] = userID
             session['isAdmin'] = isAdmin
@@ -84,7 +116,33 @@ def register():
 
     return jsonify(alert="error")
 
+@app.route('/verify', methods=['POST'])
+def verify():
+    if request.method == 'POST':
+        data = request.json
+        verification_code = data.get('verificationCode', '')
 
+        if not verification_code:
+            return jsonify(alert="error")
+
+        username = session.get('username')
+        if not username:
+            return jsonify(alert="error")
+
+        user_doc = db.collection('Users').document(hashlib.sha1(username.encode('utf-8')).hexdigest())
+        user_data = user_doc.get().to_dict()
+
+        if not user_data:
+            return jsonify(alert="error")
+
+        stored_verification_code = user_data.get('verification_code', '')
+        if verification_code == stored_verification_code:
+            # Update the user's verification status in the database
+            user_doc.update({'isVerified': True, 'verification_code': ''})
+
+            return jsonify(alert="success")
+
+    return jsonify(alert="error")
 
 
 

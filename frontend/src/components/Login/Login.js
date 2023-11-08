@@ -39,7 +39,11 @@ const Login = () => {
             body:JSON.stringify({username: username, password: password})
         }).then(res => res.json()).then(res => {
             if(res['alert'] !== 'error'){
-                navigate("/home");
+                if(res['isVerified']){
+                    navigate("/home");
+                }else{
+                    navigate("/verify");
+                }
             } else{
                 setError(true);
             }
