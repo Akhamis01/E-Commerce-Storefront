@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import $ from 'jquery';
 import './Verification-Pending.css';
+import LoadingScreen from '../LoadingScreen/LoadingScreen';
 
 const VerificationPending = () => {
     const navigate = useNavigate();
@@ -20,6 +21,7 @@ const VerificationPending = () => {
 
     return (
         <div className="verification-body">
+            <LoadingScreen />
             <div className="verification-form" style={{ display: 'none' }}>
                 <h1>Email Verification</h1>
                 <p>An email has been successfully sent for Verification. Please Verify, then you can now log in.</p>
