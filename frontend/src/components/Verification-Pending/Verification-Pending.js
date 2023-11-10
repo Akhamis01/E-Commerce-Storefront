@@ -1,31 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import $ from 'jquery';
 import './Verification-Pending.css';
-import LoadingScreen from '../LoadingScreen/LoadingScreen';
 
 const VerificationPending = () => {
-    const navigate = useNavigate();
-
-    const handleLoginClick = () => {
-        navigate('/login');
-    };
-
-    useEffect(() => {
-        $(window).on('load', function () {
-            setTimeout(function () {
-                $('.verification-form').fadeIn('slow');
-            }, 750);
-        });
-    }, []);
 
     return (
         <div className="verification-body">
-            <LoadingScreen />
-            <div className="verification-form" style={{ display: 'none' }}>
+            <div className="verification-form" style={{ display: 'block' }}>
                 <h1>Email Verification</h1>
                 <p>An email has been successfully sent for Verification. Please Verify, then you can now log in.</p>
-                <button onClick={handleLoginClick}>Back to Login</button>
+                <a className="btn btn-primary btn-rounded" href="/login">Back to Login</a>
             </div>
         </div>
     );

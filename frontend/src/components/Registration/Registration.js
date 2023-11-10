@@ -30,6 +30,7 @@ const Registration = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setError(false);
+        // add loading spinner (setLoad(true))
         fetch("/register", {
             method:"POST",
             cache: "no-cache",
@@ -44,13 +45,14 @@ const Registration = () => {
                 setError(true);
             }
         })
+        // remove loading spinner (setLoad(false))
     };
 
     return (
         <div className="register-body">
             <LoadingScreen/>
             <div className="login-form" style={{display: "none"}}>
-                <form onSubmit={handleSubmit} className="container" action="/home" method="get">
+                <form onSubmit={handleSubmit} className="container" action="/verification-pending" method="get">
                     <h1>Register</h1>
                     <hr/>
 

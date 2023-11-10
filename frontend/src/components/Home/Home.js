@@ -95,7 +95,7 @@ const Main = () => {
         <div className="order-main-bg">
             <NavBar userType={userType}/>
             <div className="main-body">
-               
+                
             </div>
         </div>
     );

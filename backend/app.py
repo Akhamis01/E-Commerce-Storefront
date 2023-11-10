@@ -91,7 +91,11 @@ def register():
             verification_code = "123456"
             msg = Message('Email Verification', sender = 'cps714group19@gmail.com', recipients=[email])
             msg.body = f'Here is your email verification code: {verification_code}'
-            mail.send(msg)
+            try:
+                mail.send(msg)
+            except:
+                print('email sending failed')
+                return jsonify(alert="error")
 
             usersRef.document(userID).set({
                 'username': username, 
