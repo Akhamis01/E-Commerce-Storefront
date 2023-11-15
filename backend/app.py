@@ -259,49 +259,6 @@ def deleteProduct():
 
 
 
-@app.route("/alterfilter", methods = ['POST'])
-def alterFilter():
-    productsRef = db.collection('Products')
-    data = request.json
-    category = str(data['category'])
-
-    payload = []
-    for product in productsRef.stream():
-        productInfo = product.to_dict()
-
-        if category != productInfo['category'] and category != 'All':
-            continue
-        productID = hashlib.sha1(productInfo['productName'].encode('utf-8')).hexdigest()
-        content = {'id': productID, 'quantity': productInfo['stockQuantity'], 'productName': productInfo['productName'], 'productDesc': productInfo['description'], 'category': productInfo['category'], 'price': productInfo['price'], 'picture': productInfo['productImage']}
-        payload.append(content)
-        content = {}
-
-    return jsonify(payload)
-
-
-
-@app.route("/searchproduct", methods = ['POST'])
-def searchProduct():
-    productsRef = db.collection('Products')
-    data = request.json
-    searchQuery = str(data['search'])
-
-    payload = []
-    for product in productsRef.stream():
-        productInfo = product.to_dict()
-        
-        if not productInfo['productName'].startswith(searchQuery):
-            continue
-
-        productID = hashlib.sha1(productInfo['productName'].encode('utf-8')).hexdigest()
-        content = {'id': productID, 'quantity': productInfo['stockQuantity'], 'productName': productInfo['productName'], 'productDesc': productInfo['description'], 'category': productInfo['category'], 'price': productInfo['price'], 'picture': productInfo['productImage']}
-        payload.append(content)
-        content = {}
-
-    return jsonify(payload)
-
-
-
 @app.route('/verify', methods=['POST'])
 def verify():
     if request.method == 'POST':
@@ -331,7 +288,204 @@ def verify():
     return jsonify(alert="error")
 
 
+@app.route("/addtocart", methods=['POST'])
+def addToCart():
+    if request.method == 'POST':
+        cartsRef = db.collection('Carts')
+        data = request.json
 
+        productID = str(data['productID'])
+        userID = str(session['id'])
+
+        currentDate = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+
+        cartID = hashlib.sha1(currentDate.encode('utf-8')).hexdigest()
+
+        if session['isAdmin'] != True:         
+            cartsRef.document(cartID).set({
+                "productId": productID,
+                "userId": userID,
+                "date": currentDate
+            })
+            return jsonify(alert="success")
+
+        return jsonify(alert="error")
+    
+
+@app.route("/removefromcart", methods = ['POST'])
+def removeFromCart():
+    if request.method == 'POST':
+        print("HERE")
+        data = request.json
+        cartsRef = db.collection('Carts')
+        productID = str(data['productID'])
+        print(productID)
+        userID = str(session['id'])
+        print(userID)
+
+        if session['isAdmin'] != True: 
+            query = cartsRef.where('productId', '==', productID).where('userId', '==', userID)
+            for doc in query.get():
+                doc.reference.delete()
+
+            return jsonify(alert="success")
+        
+        return jsonify(alert="error")
+    
+
+
+@app.route("/getallcart")
+def getAllCart():
+    userId = str(session['id'])
+
+    if session['isAdmin'] != True:
+        # Assuming you have 'carts' and 'products' collections in Firestore
+        cartsRef = db.collection('Carts')
+        productRef = db.collection('Products')
+
+        # Query to get cart items for the user
+        cart_query = cartsRef.where('userId', '==', userId).stream()
+
+        # Retrieve product information for each cart item
+        payload = []
+        all_categories = {
+            0: 'Tshirt',
+            1: 'Pants',
+            2: 'Jacket',
+            3: 'Sweater',
+            4: 'Socks'
+        }
+
+        for cart_item in cart_query:
+            product_id = cart_item.get('productId')
+            product_doc = productRef.document(product_id).get()
+            cart_item_data = {
+                'id': cart_item.id,
+                'date': cart_item.get('date'),
+                'productName': product_doc.get('productName'),
+                'category': all_categories.get((product_doc.get('category'))),
+                'price': product_doc.get('price'),
+                'productImage': product_doc.get('productImage'),
+                'quantity': 1
+            }
+            payload.append(cart_item_data)
+
+        return jsonify(payload)
+
+    return jsonify(alert="error", message="Unauthorized")
+
+
+@app.route("/getcart")
+def getCart():
+    userId = int(session['id'])
+    cartsRef = db,collection('Carts')
+    cart_query = cartsRef.where('userId', '==', userId).stream()
+    payload = []
+
+    for item in cart_query:
+        payload.append(item.get('productId'))
+
+    return jsonify(payload)
+
+
+# @app.route("/getallcart")
+# def getAllCart():
+#     cartsRef = db.collection("Carts")
+#     userId = int(session['id'])
+#     query = cartsRef.where('productId', '==', productID).where('userId', '==', userID)
+#     query = db.execute(f"SELECT * FROM carts INNER JOIN products USING(product_id) WHERE customer_id = {customerID}").fetchall()
+
+
+#     cartsRef = db.collection('Carts')
+#     productRef = db.collection('Products')
+
+#     query = cartsRef.where('userId', '==', userId)
+#     cart_items = []
+#     docs = query.get()
+
+
+
+
+#     all_categories = {
+#         0: 'Tshirt',
+#         1: 'Pants',
+#         2: 'Jacket',
+#         3: 'Sweater',
+#         4: 'Socks'
+#     }
+
+#     payload = []
+#     content = {}
+#     for result in cartsRef.stream():
+#         content = {'id':result[0], 'date': result[3], 'productName': result[4], 'categoryID': all_categories[int(result[6])], 'price': result[7], 'picture': result[8], 'quantity':1}
+#         payload.append(content)
+#         content = {}
+#     return jsonify(payload)
+
+
+
+
+# @app.route("/getorders")
+# def getOrders():
+#     all_categories = {
+#         0: 'Tshirt',
+#         1: 'Pants',
+#         2: 'Jacket',
+#         3: 'Sweater',
+#         4: 'Socks'
+#     }
+
+#     id = session['id']
+
+#     if session['isAdmin'] == True:
+#         orders_ref = db.collection('orderItems')
+#         payload = []
+
+#         for order in orders_ref.stream():
+#             order_data = order.to_dict()
+#             product_id = order_data['productID']
+#             user_id = order_data['userId']
+
+#             product_data = db.collection('Products').document(product_id).get().to_dict()
+#             user_data = db.collection('Users').document(user_id).get().to_dict()
+
+#             content = {
+#                 'productID': product_id,
+#                 'order_id': order.id,
+#                 'customer_id': user_id,
+#                 'customer_name': user_data['userName'],
+#                 'quantity': order_data['quantity'],
+#                 'date': order_data['date'],
+#                 'productName': product_data['productName'],
+#                 'category': all_categories[int(product_data['category'])],
+#                 'price': product_data['price']
+#             }
+#             payload.append(content)
+
+#         return jsonify(payload)
+
+#     else:
+#         orders_ref = db.collection('Orders').where('userId', '==', id)
+#         payload = []
+
+#         for order in orders_ref.stream():
+#             order_data = order.to_dict()
+#             product_id = order_data['productID']
+
+#             product_data = db.collection('Products').document(product_id).get().to_dict()
+
+#             content = {
+#                 'productID': product_id,
+#                 'order_id': order.id,
+#                 'quantity': order_data['quantity'],
+#                 'date': order_data['date'],
+#                 'productName': product_data['productName'],
+#                 'category': all_categories[int(product_data['category'])],
+#                 'price': product_data['price']
+#             }
+#             payload.append(content)
+
+#         return jsonify(payload)
 
 @app.route('/contact', methods=['POST'])
 def contact():
