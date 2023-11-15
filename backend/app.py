@@ -332,6 +332,106 @@ def verify():
 
 
 
+@app.route("/addtocart", methods=['POST'])
+def addToCart():
+    if request.method == 'POST':
+        cartsRef = db.collection('Carts')
+        data = request.json
+
+        productID = str(data['productID'])
+        userID = str(session['id'])
+
+        currentDate = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+
+        cartID = hashlib.sha1(currentDate.encode('utf-8')).hexdigest()
+
+        if session['isAdmin'] != True:         
+            cartsRef.document(cartID).set({
+                "productId": productID,
+                "userId": userID,
+                "date": currentDate
+            })
+            return jsonify(alert="success")
+
+        return jsonify(alert="error")
+    
+
+@app.route("/removefromcart", methods = ['POST'])
+def removeFromCart():
+    if request.method == 'POST':
+        print("HERE")
+        data = request.json
+        cartsRef = db.collection('Carts')
+        productID = str(data['productID'])
+        print(productID)
+        userID = str(session['id'])
+        print(userID)
+
+        if session['isAdmin'] != True: 
+            query = cartsRef.where('productId', '==', productID).where('userId', '==', userID)
+            for doc in query.get():
+                doc.reference.delete()
+
+            return jsonify(alert="success")
+        
+        return jsonify(alert="error")
+    
+
+
+@app.route("/getallcart")
+def getAllCart():
+    userId = str(session['id'])
+
+    if session['isAdmin'] != True:
+        # Assuming you have 'carts' and 'products' collections in Firestore
+        cartsRef = db.collection('Carts')
+        productRef = db.collection('Products')
+
+        # Query to get cart items for the user
+        cart_query = cartsRef.where('userId', '==', userId).stream()
+
+        # Retrieve product information for each cart item
+        payload = []
+        all_categories = {
+            0: 'Tshirt',
+            1: 'Pants',
+            2: 'Jacket',
+            3: 'Sweater',
+            4: 'Socks'
+        }
+
+        for cart_item in cart_query:
+            product_id = cart_item.get('productId')
+            product_doc = productRef.document(product_id).get()
+            cart_item_data = {
+                'id': cart_item.id,
+                'date': cart_item.get('date'),
+                'productName': product_doc.get('productName'),
+                'category': all_categories.get((product_doc.get('category'))),
+                'price': product_doc.get('price'),
+                'productImage': product_doc.get('productImage'),
+                'quantity': 1
+            }
+            payload.append(cart_item_data)
+
+        return jsonify(payload)
+
+    return jsonify(alert="error", message="Unauthorized")
+
+
+@app.route("/getcart")
+def getCart():
+    userId = int(session['id'])
+    cartsRef = db,collection('Carts')
+    cart_query = cartsRef.where('userId', '==', userId).stream()
+    payload = []
+
+    for item in cart_query:
+        payload.append(item.get('productId'))
+
+    return jsonify(payload)
+
+
 
 @app.route('/contact', methods=['POST'])
 def contact():
