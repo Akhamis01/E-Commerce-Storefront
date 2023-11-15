@@ -8,6 +8,7 @@ import NotFound from './components/NotFound/NotFound';
 import VerificationPending from './components/Verification-Pending/Verification-Pending';
 import Verification from './components/Verification/Verification';
 import Contact from './components/Contact/Contact';
+import AddProduct from './components/AddProduct/AddProduct';
 
 const App = () => {
     
@@ -21,6 +22,7 @@ const App = () => {
                     <Route exact path="/verification-pending" element={<VerificationPending/>}/>
                     <Route exact path="/verify" element={<Verification/>}/>
                     <Route exact path="/contact" element={<Contact/>}/>
+                    <Route exact path="/addproduct" element={<AddProduct/>}/>
                     <Route exact path="*" element={<NotFound/>}/>
                 </Routes>
             </Fragment>

@@ -98,7 +98,6 @@ def register():
         if userInfo is None:
             verification_code = random.randint( (10**(5)), ((10**6)-1) ) # random 6 digit number
             msg = Message('Email Verification', sender = 'cps714group19@gmail.com', recipients=[email])
-            # msg.body = f'Here is your email verification code: {verification_code}'
             msg.html =  f"""
                             <html>
                                 <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; text-align: center;">
@@ -148,6 +147,81 @@ def register():
 
     return jsonify(alert="error")
 
+
+
+@app.route("/addproduct", methods = ['POST'])
+def addproduct():
+    if request.method == 'POST':
+        productsRef = db.collection('Products')
+        data = request.json
+        productName = str(data['productName'])
+        productDescription = str(data['productDescription'])
+        category = str(data['category'])
+        price = float(data['price'])
+        productImage = str(data['picture'])
+
+        productID = hashlib.sha1(productName.encode('utf-8')).hexdigest()
+
+        if session['isAdmin'] == True:
+            productsRef.document(productID).set({
+                'productName': productName,
+                'productImage': productImage,
+                'price': price,
+                'stockQuantity': 1,
+                'description': productDescription,
+                'category': category
+            })
+            return jsonify(alert="success")
+        else:
+            return jsonify(alert="error")
+
+    return jsonify(alert="error")
+
+
+
+@app.route("/addexistingproduct", methods = ['POST'])
+def addExistingProduct():
+    if request.method == 'POST':
+        productsRef = db.collection('Products')
+        data = request.json
+        productID = str(data['productID'])
+        
+        if not productID:
+            try:
+                for product in productsRef.stream():
+                    tempProductName = product.to_dict()['productName']
+                    productID = hashlib.sha1(tempProductName.encode('utf-8')).hexdigest()
+                    break
+            except:
+                return jsonify(alert='error')
+
+        if session['isAdmin'] == True:
+            productInfo = productsRef.document(productID)
+            newProductQuantity = int(productInfo.get().to_dict()['stockQuantity']) + 1
+            productInfo.update({'stockQuantity': str(newProductQuantity)})
+
+            print(newProductQuantity)
+
+            return jsonify(alert='success')
+
+    return jsonify(alert='error')
+
+
+
+
+@app.route("/getexistingproducts")
+def getExistingProduct():
+    productsRef = db.collection('Products')
+
+    payload = []
+    for product in productsRef.stream():
+        productInfo = product.to_dict()
+        productID = hashlib.sha1(productInfo['productName'].encode('utf-8')).hexdigest()
+        content = {'id': productID, 'productName': productInfo['productName']}
+        payload.append(content)
+        content = {}
+
+    return jsonify(payload)
 
 
 
