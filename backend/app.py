@@ -98,7 +98,26 @@ def register():
         if userInfo is None:
             verification_code = random.randint( (10**(5)), ((10**6)-1) ) # random 6 digit number
             msg = Message('Email Verification', sender = 'cps714group19@gmail.com', recipients=[email])
-            msg.body = f'Here is your email verification code: {verification_code}'
+            # msg.body = f'Here is your email verification code: {verification_code}'
+            msg.html =  f"""
+                            <html>
+                                <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; text-align: center;">
+
+                                    <div style="background-color: #3498db; color: #ffffff; padding: 20px;">
+                                        <h2>Email Verification</h2>
+                                    </div>
+
+                                    <div style="background-color: #ffffff; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                                        <p>Dear {username},</p>
+                                        <p>Thank you for registering with us! Please use the following code to verify your email:</p>
+                                        <h3 style="color: #3498db;">{verification_code}</h3>
+                                    </div>
+
+                                    <p style="color: #7f8c8d;">This is an automated email. Please do not reply.</p>
+                                </body>
+                            </html>
+                        """
+
             try:
                 mail.send(msg)
             except:
