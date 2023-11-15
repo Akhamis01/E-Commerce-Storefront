@@ -284,13 +284,13 @@ def alterFilter():
 def searchProduct():
     productsRef = db.collection('Products')
     data = request.json
-    searchQuery = str(data['search'])
+    searchQuery = str(data['search']).lower()
 
     payload = []
     for product in productsRef.stream():
         productInfo = product.to_dict()
         
-        if not productInfo['productName'].startswith(searchQuery):
+        if not productInfo['productName'].lower().startswith(searchQuery):
             continue
 
         productID = hashlib.sha1(productInfo['productName'].encode('utf-8')).hexdigest()
@@ -359,15 +359,12 @@ def addToCart():
 @app.route("/removefromcart", methods = ['POST'])
 def removeFromCart():
     if request.method == 'POST':
-        print("HERE")
         data = request.json
         cartsRef = db.collection('Carts')
         productID = str(data['productID'])
-        print(productID)
         userID = str(session['id'])
-        print(userID)
 
-        if session['isAdmin'] != True: 
+        if session['isAdmin'] != True:
             query = cartsRef.where('productId', '==', productID).where('userId', '==', userID)
             for doc in query.get():
                 doc.reference.delete()

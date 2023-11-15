@@ -7,7 +7,7 @@ import NavBar from '../NavBar/NavBar'
 const Main = () => {
     const [cart, setCart] = useState([]);
     const [products, setProducts] = useState([]);
-    const [category, setCategory] = useState('');
+    const [category, setCategory] = useState('All');
     const [userType, setUserType] = useState('');
     const [search, setSearch] = useState('');
 

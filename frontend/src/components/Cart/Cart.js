@@ -18,6 +18,7 @@ export default function Cart() {
     useEffect(() => {
         fetch("/getallcart").then(res => res.json()).then(data => {
             setCart(data);
+            console.log(data)
         });
 
         fetch("/getusertype").then(res => res.json()).then(data => {
