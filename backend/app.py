@@ -339,14 +339,10 @@ def getAllCart():
     userId = str(session['id'])
 
     if session['isAdmin'] != True:
-        # Assuming you have 'carts' and 'products' collections in Firestore
         cartsRef = db.collection('Carts')
         productRef = db.collection('Products')
-
-        # Query to get cart items for the user
         cart_query = cartsRef.where('userId', '==', userId).stream()
 
-        # Retrieve product information for each cart item
         payload = []
         all_categories = {
             0: 'Tshirt',
@@ -386,43 +382,6 @@ def getCart():
         payload.append(item.get('productId'))
 
     return jsonify(payload)
-
-
-# @app.route("/getallcart")
-# def getAllCart():
-#     cartsRef = db.collection("Carts")
-#     userId = int(session['id'])
-#     query = cartsRef.where('productId', '==', productID).where('userId', '==', userID)
-#     query = db.execute(f"SELECT * FROM carts INNER JOIN products USING(product_id) WHERE customer_id = {customerID}").fetchall()
-
-
-#     cartsRef = db.collection('Carts')
-#     productRef = db.collection('Products')
-
-#     query = cartsRef.where('userId', '==', userId)
-#     cart_items = []
-#     docs = query.get()
-
-
-
-
-#     all_categories = {
-#         0: 'Tshirt',
-#         1: 'Pants',
-#         2: 'Jacket',
-#         3: 'Sweater',
-#         4: 'Socks'
-#     }
-
-#     payload = []
-#     content = {}
-#     for result in cartsRef.stream():
-#         content = {'id':result[0], 'date': result[3], 'productName': result[4], 'categoryID': all_categories[int(result[6])], 'price': result[7], 'picture': result[8], 'quantity':1}
-#         payload.append(content)
-#         content = {}
-#     return jsonify(payload)
-
-
 
 
 # @app.route("/getorders")
