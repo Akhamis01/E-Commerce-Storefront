@@ -200,8 +200,6 @@ def addExistingProduct():
             newProductQuantity = int(productInfo.get().to_dict()['stockQuantity']) + 1
             productInfo.update({'stockQuantity': str(newProductQuantity)})
 
-            print(newProductQuantity)
-
             return jsonify(alert='success')
 
     return jsonify(alert='error')
@@ -223,6 +221,41 @@ def getExistingProduct():
 
     return jsonify(payload)
 
+
+@app.route("/getallproducts")
+def getAllProducts():
+    productsRef = db.collection('Products')
+
+    payload = []
+    for product in productsRef.stream():
+        productInfo = product.to_dict()
+        productID = hashlib.sha1(productInfo['productName'].encode('utf-8')).hexdigest()
+        content = {'id': productID, 'quantity': productInfo['stockQuantity'], 'productName': productInfo['productName'], 'productDesc': productInfo['description'], 'category': productInfo['category'], 'price': productInfo['price'], 'picture': productInfo['productImage']}
+        payload.append(content)
+        content = {}
+
+    return jsonify(payload)
+
+
+
+@app.route("/deleteproduct", methods = ['POST'])
+def deleteProduct():
+    productsRef = db.collection('Products')
+    data = request.json
+    id = data['id']
+
+    if session['isAdmin'] == True:
+        productInfo = productsRef.document(id).delete()
+    
+    payload = []
+    for product in productsRef.stream():
+        productInfo = product.to_dict()
+        productID = hashlib.sha1(productInfo['productName'].encode('utf-8')).hexdigest()
+        content = {'id': productID, 'quantity': productInfo['stockQuantity'], 'productName': productInfo['productName'], 'productDesc': productInfo['description'], 'category': productInfo['category'], 'price': productInfo['price'], 'picture': productInfo['productImage']}
+        payload.append(content)
+        content = {}
+
+    return jsonify(payload)
 
 
 
