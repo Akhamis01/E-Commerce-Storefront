@@ -1,7 +1,6 @@
 // Verification.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LoadingScreen from '../LoadingScreen/LoadingScreen';
 
 const Verification = () => {
     const [verificationCode, setVerificationCode] = useState('');
@@ -31,7 +30,6 @@ const Verification = () => {
 
     return (
         <div className="verification-body">
-            <LoadingScreen />
             <h1>Verification</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">

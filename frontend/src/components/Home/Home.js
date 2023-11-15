@@ -21,6 +21,7 @@ const Main = () => {
 
         fetch("/getusertype").then(res => res.json()).then(data => {
             setUserType(data['type']);
+            console.log(data['type'])
         });
     }, [])
 

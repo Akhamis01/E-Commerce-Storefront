@@ -15,6 +15,7 @@ const Registration = () => {
     const [address, setAddress] = useState('NULL');
     const [firstName, setFirstName] = useState('NULL');
     const [lastName, setLastName] = useState('NULL');
+    const [loadingSpinner, setLoadingSpinner] = useState('none');
 
     const [error, setError] = useState(false);
     const navigate = useNavigate();
@@ -30,7 +31,8 @@ const Registration = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setError(false);
-        // add loading spinner (setLoad(true))
+        setLoadingSpinner('block');
+
         fetch("/register", {
             method:"POST",
             cache: "no-cache",
@@ -43,9 +45,9 @@ const Registration = () => {
                 navigate("/verification-pending");
             } else{
                 setError(true);
+                setLoadingSpinner('none');
             }
         })
-        // remove loading spinner (setLoad(false))
     };
 
     return (
@@ -103,6 +105,10 @@ const Registration = () => {
                             <button id="register" className="btn btn-primary btn-rounded" type="submit" disabled>Register</button>
                         )
                     }
+
+                    <div class="spinner-border" style={{marginLeft: "20px", marginTop: "5px", display: loadingSpinner}}>
+                        <span class="sr-only"></span>
+                    </div>
 
                     <hr/>
                     <a className="btn btn-primary btn-rounded" href="/login">Already Registered? Login Here!</a>

@@ -37,21 +37,26 @@ def logged_in(f):
 
 
 
+
+
+
+
 @app.route('/login', methods = ['POST'])
 def login():
     if request.method == 'POST':
-        print('LOGIN POST')
         usersRef = db.collection('Users')
         data = request.json
         username = str(data['username'])
         password = str(data['password'])
         userID = hashlib.sha1(username.encode('utf-8')).hexdigest()
+        hashPassword = hashlib.sha1(password.encode('utf-8')).hexdigest()
+
         userInfo = usersRef.document(userID).get().to_dict()
 
         if userInfo is None:
             return jsonify(alert="error")
 
-        if username == userInfo['username'] and password == userInfo['password']:
+        if username == userInfo['username'] and hashPassword == userInfo['password']:
             session['loggedIn'] = True
             session['username'] = username
             session['id'] = userID
@@ -70,6 +75,9 @@ def login():
 
 
 
+
+
+
 @app.route('/register', methods = ['POST'])
 def register():
     if request.method == 'POST':
@@ -84,11 +92,11 @@ def register():
         lastName = str(data['lastName'])
         isAdmin = False
         userID = hashlib.sha1(username.encode('utf-8')).hexdigest()
-
+        hashPassword = hashlib.sha1(password.encode('utf-8')).hexdigest()
         userInfo = usersRef.document(userID).get().to_dict()
-        if userInfo is None:
 
-            verification_code = "123456"
+        if userInfo is None:
+            verification_code = random.randint( (10**(5)), ((10**6)-1) ) # random 6 digit number
             msg = Message('Email Verification', sender = 'cps714group19@gmail.com', recipients=[email])
             msg.body = f'Here is your email verification code: {verification_code}'
             try:
@@ -98,17 +106,18 @@ def register():
                 return jsonify(alert="error")
 
             usersRef.document(userID).set({
-                'username': username, 
-                'password': password, 
-                'email': email, 
-                'phone': phone, 
-                'address': address, 
-                'firstName': firstName, 
-                'lastName': lastName, 
+                'username': username,
+                'password': hashPassword,
+                'email': email,
+                'phone': phone,
+                'address': address,
+                'firstName': firstName,
+                'lastName': lastName,
                 'isAdmin': isAdmin,
                 'verification_code': verification_code,
                 'isVerified': False
-                })
+            })
+
             session['loggedIn'] = False
             session['username'] = username
             session['id'] = userID
@@ -119,6 +128,10 @@ def register():
         return jsonify(alert="success")
 
     return jsonify(alert="error")
+
+
+
+
 
 @app.route('/verify', methods=['POST'])
 def verify():
@@ -140,13 +153,16 @@ def verify():
             return jsonify(alert="error")
 
         stored_verification_code = user_data.get('verification_code', '')
-        if verification_code == stored_verification_code:
+        if str(verification_code) == str(stored_verification_code):
             # Update the user's verification status in the database
-            user_doc.update({'isVerified': True, 'verification_code': ''})
+            user_doc.update({'isVerified': True})
 
             return jsonify(alert="success")
 
     return jsonify(alert="error")
+
+
+
 
 @app.route('/contact', methods=['POST'])
 def contact():
@@ -172,19 +188,29 @@ def contact():
         return jsonify(alert="error")
 
 
+
+
 @app.route("/getusertype")
 @logged_in
 def getUserType():
-    return jsonify(type = str(session['isAdmin']))
+    if str(session['isAdmin']) == 'True':
+        return jsonify(type = 'admin')
+    return jsonify(type = 'customer')
+
+
 
 @app.route("/getusername")
 @logged_in
 def getUsername():
     return jsonify(username = str(session['username']))
 
+
+
 @app.route("/home")
 def main():
     return jsonify(name="home")
+
+
 
 @app.route("/logout", methods = ['GET'])
 @logged_in

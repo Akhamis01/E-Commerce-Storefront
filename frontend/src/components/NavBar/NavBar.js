@@ -14,7 +14,7 @@ const NavBar = ({userType}) => {
     };
 
     return (
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
                 <a className="navbar-brand" href="/home">
                     <img src="https://static.vecteezy.com/system/resources/previews/016/016/817/non_2x/ecommerce-logo-free-png.png" height="50" alt="" loading="lazy"/>
@@ -39,7 +39,7 @@ const NavBar = ({userType}) => {
                                 <a href="/cart" type="button" className="btn btn-secondary me-3">Cart</a>
                             ) : null
                         }
-                        <a href="/" onClick={handleLogout} type="button" className="btn btn-primary me-3">Logout</a>
+                        <a href="/login" onClick={handleLogout} type="button" className="btn btn-primary me-3">Logout</a>
                     </div>
                 </div>
             </div>
