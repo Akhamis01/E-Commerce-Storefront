@@ -9,6 +9,8 @@ import VerificationPending from './components/Verification-Pending/Verification-
 import Verification from './components/Verification/Verification';
 import Contact from './components/Contact/Contact';
 import AddProduct from './components/AddProduct/AddProduct';
+import Cart from './components/Cart/Cart';
+import Orders from './components/Orders/Orders';
 
 const App = () => {
     
@@ -23,12 +25,13 @@ const App = () => {
                     <Route exact path="/verify" element={<Verification/>}/>
                     <Route exact path="/contact" element={<Contact/>}/>
                     <Route exact path="/addproduct" element={<AddProduct/>}/>
+                    <Route exact path="/cart" element={Cart}/>
+                    <Route exact path="/orders" element={Orders}/>
                     <Route exact path="*" element={<NotFound/>}/>
                 </Routes>
             </Fragment>
         </Router>
     );
-
 };
 
 export default App;

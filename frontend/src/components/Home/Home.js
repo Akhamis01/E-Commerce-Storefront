@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import { Link } from 'react-router-dom';
 import './Home.css';
 import NavBar from '../NavBar/NavBar'
 
@@ -98,6 +99,13 @@ const Main = () => {
             <div className="main-body">
                 
             </div>
+                
+            <footer className="footer">
+            <div className="footer-content">
+                <p>&copy; 2023 E-StoreFront. All rights reserved.</p>
+                <p><Link to="/contact">CONTACT US</Link></p>
+            </div>
+            </footer>
         </div>
     );
 }
