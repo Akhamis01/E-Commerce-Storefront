@@ -58,7 +58,7 @@ const Main = () => {
             headers:{
                 "Content-type":"application/json",
             },
-            body:JSON.stringify({categoryID: category})
+            body:JSON.stringify({'category': category})
         }).then(res => res.json()).then(data => {
             setProducts(data);
         })
@@ -86,7 +86,7 @@ const Main = () => {
             headers:{
                 "Content-type":"application/json",
             },
-            body:JSON.stringify({search: search})
+            body:JSON.stringify({'search': search})
         }).then(res => res.json()).then(data => {
             setProducts(data);
         })
@@ -100,12 +100,12 @@ const Main = () => {
                     <h1>Products</h1>
                     <h5>Select a category:</h5>
                     <select onChange={(e) => setCategory(e.target.value)}>
-                        <option value='all'>All</option>
-                        <option value='0'>Tshirt</option>
-                        <option value='1'>Pants</option>
-                        <option value='2'>Jacket</option>
-                        <option value='3'>Sweater</option>
-                        <option value='4'>Socks</option>
+                        <option value='All'>All</option>
+                        <option value='Tshirt'>Tshirt</option>
+                        <option value='Pants'>Pants</option>
+                        <option value='Jacket'>Jacket</option>
+                        <option value='Sweater'>Sweater</option>
+                        <option value='Socks'>Socks</option>
                     </select>
                     <button type="button" onClick={handleFilter} className={`btn btn-outline-info`}>Apply Filter</button>
                     <br></br>

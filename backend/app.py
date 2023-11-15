@@ -259,6 +259,49 @@ def deleteProduct():
 
 
 
+@app.route("/alterfilter", methods = ['POST'])
+def alterFilter():
+    productsRef = db.collection('Products')
+    data = request.json
+    category = str(data['category'])
+
+    payload = []
+    for product in productsRef.stream():
+        productInfo = product.to_dict()
+
+        if category != productInfo['category'] and category != 'All':
+            continue
+        productID = hashlib.sha1(productInfo['productName'].encode('utf-8')).hexdigest()
+        content = {'id': productID, 'quantity': productInfo['stockQuantity'], 'productName': productInfo['productName'], 'productDesc': productInfo['description'], 'category': productInfo['category'], 'price': productInfo['price'], 'picture': productInfo['productImage']}
+        payload.append(content)
+        content = {}
+
+    return jsonify(payload)
+
+
+
+@app.route("/searchproduct", methods = ['POST'])
+def searchProduct():
+    productsRef = db.collection('Products')
+    data = request.json
+    searchQuery = str(data['search'])
+
+    payload = []
+    for product in productsRef.stream():
+        productInfo = product.to_dict()
+        
+        if not productInfo['productName'].startswith(searchQuery):
+            continue
+
+        productID = hashlib.sha1(productInfo['productName'].encode('utf-8')).hexdigest()
+        content = {'id': productID, 'quantity': productInfo['stockQuantity'], 'productName': productInfo['productName'], 'productDesc': productInfo['description'], 'category': productInfo['category'], 'price': productInfo['price'], 'picture': productInfo['productImage']}
+        payload.append(content)
+        content = {}
+
+    return jsonify(payload)
+
+
+
 @app.route('/verify', methods=['POST'])
 def verify():
     if request.method == 'POST':
