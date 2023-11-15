@@ -77,7 +77,7 @@ export default function Cart() {
             body:JSON.stringify({cardType: cardType, cardName: cardName, cardNum:cardNum, cardDate:cardDate, cardCVV:cardCVV})
         }).then(res => res.json()).then(res => {
             if(res['alert'] === 'success'){
-                navigate("/main");
+                navigate("/home");
             }
         });
     }
@@ -94,7 +94,7 @@ export default function Cart() {
         <div className="order-main-bg">
         <NavBar userType={userType}/>
             <div className="row no-gutters center">
-                <div><a className="btn btn-primary btn-rounded" href="/main">Back to shopping</a></div>
+                <div><a className="btn btn-primary btn-rounded" href="/home">Back to shopping</a></div>
                 <div className="col-md-8">
                     <div className="product-details mr-2 bod">
                         <h1 className="mb-0">Shopping cart</h1>

@@ -21,7 +21,7 @@ const Orders = () => {
             <NavBar userType={userType}/>
             <div className = "table-responsive center order-bg" style={{width: 1000, }}>
                 <h1>Orders:</h1>
-                <div><a id="orders-btn" className="btn btn-primary btn-rounded" href="/main">Back to shopping</a></div>
+                <div><a id="orders-btn" className="btn btn-primary btn-rounded" href="/home">Back to shopping</a></div>
 
                 <table className="table table-striped table-bordered" width = "100">
                     <thead className= "table-dark">
