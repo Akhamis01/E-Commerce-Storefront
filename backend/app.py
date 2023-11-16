@@ -169,6 +169,73 @@ def searchProduct():
     return jsonify(payload)
 
 ##############################################################################
+#             Orders Functions                                              #
+##############################################################################
+
+
+@app.route("/getorders")
+def getOrders():
+    all_categories = {
+        0: 'Tshirt',
+        1: 'Pants',
+        2: 'Jacket',
+        3: 'Sweater',
+        4: 'Socks'
+    }
+    userId = session['id']
+
+    if session['isAdmin'] == True:
+        ordersRef = db.collection('Orders')
+        productsRef = db.collection('Products')
+
+        order_query = ordersRef.stream()
+        payload = []
+
+        for order in order_query:
+            productId = order.get('productId')
+            productDoc = productsRef.document(productId).get()
+            
+            content = {
+                'productId': productId,
+                'order_id': order.id,
+                'userId': order.get('userId'),
+                'quantity': order.get('quantity'),
+                'date': order.get('datePurchased'),
+                'productName': productDoc.get('productName'),
+                'category': all_categories.get(int(productDoc.get('category'))),
+                'price': productDoc.get('price')
+            }
+            payload.append(content)
+
+        return jsonify(payload)
+
+    else:
+        ordersRef = db.collection('Orders')
+        productsRef = db.collection('Products')
+
+        order_query = ordersRef.where('userId', '==', userId).stream()
+        payload = []
+
+        for order in order_query:
+            productId = order.get('productId')
+            productDoc = productsRef.document(productId).get()
+            
+            content = {
+                'productId': productId,
+                'orderId': order.id,
+                'userId': order.get('userId'),
+                'quantity': order.get('quantity'),
+                'date': order.get('datePurchased'),
+                'productName': productDoc.get('productName'),
+                'category': all_categories.get(productDoc.get('category')),
+                'price': productDoc.get('price')
+            }
+            payload.append(content)
+
+        return jsonify(payload)
+
+
+##############################################################################
 #             Payment Functions                                               #
 ##############################################################################
 

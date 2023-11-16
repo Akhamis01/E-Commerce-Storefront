@@ -39,8 +39,8 @@ const Orders = () => {
 
                     {orders.map((order) => (
                         <tr>
-                            <th scope="row">{order.order_id}</th>
-                            <th scope="row">{order.customer_id}</th>
+                            <th scope="row">{order.orderId}</th>
+                            <th scope="row">{order.userId}</th>
                             <th scope="row">{order.productName}</th>
                             <th scope="row">{order.category}</th>
                             <th scope="row">{order.quantity}</th>
