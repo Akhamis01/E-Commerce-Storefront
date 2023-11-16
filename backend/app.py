@@ -36,10 +36,337 @@ def logged_in(f):
     return wrap
 
 
+##############################################################################
+#             Add Products Functions                                        #
+##############################################################################
+
+###########            Add Products                             ###########
+@app.route("/addproduct", methods = ['POST'])
+def addproduct():
+    if request.method == 'POST':
+        productsRef = db.collection('Products')
+        data = request.json
+        productName = str(data['productName'])
+        productDescription = str(data['productDescription'])
+        category = str(data['category'])
+        price = float(data['price'])
+        productImage = str(data['picture'])
+
+        productID = hashlib.sha1(productName.encode('utf-8')).hexdigest()
+
+        if session['isAdmin'] == True:
+            productsRef.document(productID).set({
+                'productName': productName,
+                'productImage': productImage,
+                'price': price,
+                'stockQuantity': 1,
+                'description': productDescription,
+                'category': category
+            })
+            return jsonify(alert="success")
+        else:
+            return jsonify(alert="error")
+
+    return jsonify(alert="error")
+
+###########            Remove Products                             ###########
+@app.route("/deleteproduct", methods = ['POST'])
+def deleteProduct():
+    productsRef = db.collection('Products')
+    data = request.json
+    id = data['id']
+
+    if session['isAdmin'] == True:
+        productInfo = productsRef.document(id).delete()
+    
+    payload = []
+    for product in productsRef.stream():
+        productInfo = product.to_dict()
+        productID = hashlib.sha1(productInfo['productName'].encode('utf-8')).hexdigest()
+        content = {'id': productID, 'quantity': productInfo['stockQuantity'], 'productName': productInfo['productName'], 'productDesc': productInfo['description'], 'category': productInfo['category'], 'price': productInfo['price'], 'picture': productInfo['productImage']}
+        payload.append(content)
+        content = {}
+
+    return jsonify(payload)
+
+###########            Get existing Products                             ###########
+@app.route("/getexistingproducts")
+def getExistingProduct():
+    productsRef = db.collection('Products')
+
+    payload = []
+    for product in productsRef.stream():
+        productInfo = product.to_dict()
+        productID = hashlib.sha1(productInfo['productName'].encode('utf-8')).hexdigest()
+        content = {'id': productID, 'productName': productInfo['productName']}
+        payload.append(content)
+        content = {}
+
+    return jsonify(payload)
+
+
+###########            Add existing Products                             ###########
+@app.route("/addexistingproduct", methods = ['POST'])
+def addExistingProduct():
+    if request.method == 'POST':
+        productsRef = db.collection('Products')
+        data = request.json
+        productID = str(data['productID'])
+        
+        if not productID:
+            try:
+                for product in productsRef.stream():
+                    tempProductName = product.to_dict()['productName']
+                    productID = hashlib.sha1(tempProductName.encode('utf-8')).hexdigest()
+                    break
+            except:
+                return jsonify(alert='error')
+
+        if session['isAdmin'] == True:
+            productInfo = productsRef.document(productID)
+            newProductQuantity = int(productInfo.get().to_dict()['stockQuantity']) + 1
+            productInfo.update({'stockQuantity': str(newProductQuantity)})
+
+            return jsonify(alert='success')
+
+    return jsonify(alert='error')
+
+
+###########            Get all Products                             ###########
+@app.route("/getallproducts")
+def getAllProducts():
+    productsRef = db.collection('Products')
+
+    payload = []
+    for product in productsRef.stream():
+        productInfo = product.to_dict()
+        productID = hashlib.sha1(productInfo['productName'].encode('utf-8')).hexdigest()
+        content = {'id': productID, 'quantity': productInfo['stockQuantity'], 'productName': productInfo['productName'], 'productDesc': productInfo['description'], 'category': productInfo['category'], 'price': productInfo['price'], 'picture': productInfo['productImage']}
+        payload.append(content)
+        content = {}
+
+    return jsonify(payload)
+
+###########            Search Products                             ###########
+@app.route("/searchproduct", methods = ['POST'])
+def searchProduct():
+    productsRef = db.collection('Products')
+    data = request.json
+    searchQuery = str(data['search'])
+
+    payload = []
+    for product in productsRef.stream():
+        productInfo = product.to_dict()
+        
+        if not productInfo['productName'].startswith(searchQuery):
+            continue
+
+        productID = hashlib.sha1(productInfo['productName'].encode('utf-8')).hexdigest()
+        content = {'id': productID, 'quantity': productInfo['stockQuantity'], 'productName': productInfo['productName'], 'productDesc': productInfo['description'], 'category': productInfo['category'], 'price': productInfo['price'], 'picture': productInfo['productImage']}
+        payload.append(content)
+        content = {}
+
+    return jsonify(payload)
+
+##############################################################################
+#             Payment Functions                                               #
+##############################################################################
+
+##############################################################################
+#             CART Functions                                                 #
+##############################################################################
+
+@app.route("/addtocart", methods=['POST'])
+def addToCart():
+    if request.method == 'POST':
+        cartsRef = db.collection('Carts')
+        data = request.json
+
+        productID = str(data['productID'])
+        userID = str(session['id'])
+
+        currentDate = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+
+        cartID = hashlib.sha1(currentDate.encode('utf-8')).hexdigest()
+
+        if session['isAdmin'] != True:         
+            cartsRef.document(cartID).set({
+                "productId": productID,
+                "userId": userID,
+                "date": currentDate
+            })
+            return jsonify(alert="success")
+
+        return jsonify(alert="error")
+    
+
+@app.route("/removefromcart", methods = ['POST'])
+def removeFromCart():
+    if request.method == 'POST':
+        print("HERE")
+        data = request.json
+        cartsRef = db.collection('Carts')
+        productID = str(data['productID'])
+        print(productID)
+        userID = str(session['id'])
+        print(userID)
+
+        if session['isAdmin'] != True: 
+            query = cartsRef.where('productId', '==', productID).where('userId', '==', userID)
+            for doc in query.get():
+                doc.reference.delete()
+
+            return jsonify(alert="success")
+        
+        return jsonify(alert="error")
+
+
+@app.route("/getallcart")
+def getAllCart():
+    userId = str(session['id'])
+
+    if session['isAdmin'] != True:
+        cartsRef = db.collection('Carts')
+        productRef = db.collection('Products')
+        cart_query = cartsRef.where('userId', '==', userId).stream()
+        payload = []
+        all_categories = {
+            0: 'Tshirt',
+            1: 'Pants',
+            2: 'Jacket',
+            3: 'Sweater',
+            4: 'Socks'
+        }
+
+        for cart_item in cart_query:
+            product_id = cart_item.get('productId')
+            product_doc = productRef.document(product_id).get()
+            cart_item_data = {
+                'id': cart_item.id,
+                'date': cart_item.get('date'),
+                'productName': product_doc.get('productName'),
+                'category': all_categories.get((product_doc.get('category'))),
+                'price': product_doc.get('price'),
+                'productImage': product_doc.get('productImage'),
+                'quantity': 1
+            }
+            payload.append(cart_item_data)
+
+        return jsonify(payload)
+
+    return jsonify(alert="error", message="Unauthorized")
+
+@app.route("/getcart")
+def getCart():
+    userId = int(session['id'])
+    cartsRef = db.collection('Carts')
+    cart_query = cartsRef.where('userId', '==', userId).stream()
+    payload = []
+
+    for item in cart_query:
+        payload.append(item.get('productId'))
+
+    return jsonify(payload)
+
+
+@app.route("/clearcart")
+def clearCart():
+    userId = (session['id'])
+    cartsRef = db.collection('Carts')
+    if session['isAdmin'] != True:
+        clearCartQuery = cartsRef.where('userId', '==', userId)
+        for doc in clearCartQuery.get():
+            doc.reference.delete()
+
+    return jsonify(alert="success")
 
 
 
+# @app.route("/addpayment", methods = ['POST'])
+# def addPayment():
+#     if request.method == 'POST':
+#         data = request.json
+#         random_id = random.randint(0, 1000)
+#         id = session['id']
 
+#         customerID = session['id']
+#         cardType = data['cardType']
+#         cardName = data['cardName']
+#         cardNum = int(data['cardNum'])
+#         cardDate = str(data['cardDate'])
+#         cardCVV = int(data['cardCVV'])
+
+#         if session['userType'] == 'customer':
+#             rv = db.execute(f"SELECT * FROM user_payments WHERE customer_id = {id}").fetchone()
+
+#             if rv is None:
+#                 db.execute("INSERT INTO user_payments(payment_id, customer_id, payment_provider, card_num, payment_expiry_date, cvv, payment_name) VALUES(:pay_id, :cust_id, :pay_prov, :card_num, :expiry, :cvv, :name)", {"pay_id":random_id, "cust_id":customerID, "pay_prov":cardType, "card_num":cardNum, "expiry":cardDate, "cvv":cardCVV, "name":cardName})
+#                 db.commit()
+#             return jsonify(alert="success")
+
+#         return jsonify(alert="error")
+
+# @app.route("/trypaymentinfo", methods = ['POST'])
+# def tryPaymentInfo():
+#     id = session['id']
+#     rv = db.execute(f"SELECT * FROM user_payments WHERE customer_id = {id}").fetchone()
+    
+#     if rv is None:
+#         return jsonify(alert="error")
+
+#     content = {'alert':'success', 'paymentProvider': rv[2], 'cardNum': int(rv[3]), 'date':rv[4], 'cvv':int(rv[5]), 'name':rv[6]}
+#     return jsonify(content)
+
+
+# @app.route("/removefrominventory")
+# def removeFromInventory():
+#     id = int(session['id'])
+#     currentDate = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+
+    
+#     if session['userType'] == 'customer':
+#         rv = db.execute(f"SELECT * FROM carts INNER JOIN inventory USING(product_id) WHERE customer_id = {id}").fetchall()
+
+#         product_id = []
+#         for result in rv:
+#             product_id.append(int(result[0]))
+
+#         # equivalent to UPDATE "inventory SET quantity = quantity - 1 WHERE product_id in (all_id's)"
+#         for productID in product_id:
+#             random_id = random.randint(0, 1000)
+#             db.execute("INSERT INTO orders(order_id, customer_id, product_id, quantity, date_purchased) VALUES(:order_id, :customer_id, :product_id, :quantity, :date_added)", {"order_id":random_id, "customer_id":id, "product_id":productID, "quantity":1 ,"date_added":currentDate})
+#             db.execute("UPDATE inventory SET quantity = quantity - 1 WHERE product_id = :id", {'id':productID})
+#         db.commit()
+#     return jsonify(alert="success")
+
+
+##############################################################################
+#             Filter Functions                                               #
+##############################################################################
+
+@app.route("/alterfilter", methods = ['POST'])
+def alterFilter():
+    productsRef = db.collection('Products')
+    data = request.json
+    category = str(data['category'])
+
+    payload = []
+    for product in productsRef.stream():
+        productInfo = product.to_dict()
+
+        if category != productInfo['category'] and category != 'All':
+            continue
+        productID = hashlib.sha1(productInfo['productName'].encode('utf-8')).hexdigest()
+        content = {'id': productID, 'quantity': productInfo['stockQuantity'], 'productName': productInfo['productName'], 'productDesc': productInfo['description'], 'category': productInfo['category'], 'price': productInfo['price'], 'picture': productInfo['productImage']}
+        payload.append(content)
+        content = {}
+
+    return jsonify(payload)
+
+
+##############################################################################
+#             Login Functions                                                #
+##############################################################################
 
 @app.route('/login', methods = ['POST'])
 def login():
@@ -74,9 +401,9 @@ def login():
     return jsonify(alert="error")
 
 
-
-
-
+##############################################################################
+#             Registration Functions                                         #
+##############################################################################
 
 @app.route('/register', methods = ['POST'])
 def register():
@@ -148,159 +475,9 @@ def register():
     return jsonify(alert="error")
 
 
-
-@app.route("/addproduct", methods = ['POST'])
-def addproduct():
-    if request.method == 'POST':
-        productsRef = db.collection('Products')
-        data = request.json
-        productName = str(data['productName'])
-        productDescription = str(data['productDescription'])
-        category = str(data['category'])
-        price = float(data['price'])
-        productImage = str(data['picture'])
-
-        productID = hashlib.sha1(productName.encode('utf-8')).hexdigest()
-
-        if session['isAdmin'] == True:
-            productsRef.document(productID).set({
-                'productName': productName,
-                'productImage': productImage,
-                'price': price,
-                'stockQuantity': 1,
-                'description': productDescription,
-                'category': category
-            })
-            return jsonify(alert="success")
-        else:
-            return jsonify(alert="error")
-
-    return jsonify(alert="error")
-
-
-
-@app.route("/addexistingproduct", methods = ['POST'])
-def addExistingProduct():
-    if request.method == 'POST':
-        productsRef = db.collection('Products')
-        data = request.json
-        productID = str(data['productID'])
-        
-        if not productID:
-            try:
-                for product in productsRef.stream():
-                    tempProductName = product.to_dict()['productName']
-                    productID = hashlib.sha1(tempProductName.encode('utf-8')).hexdigest()
-                    break
-            except:
-                return jsonify(alert='error')
-
-        if session['isAdmin'] == True:
-            productInfo = productsRef.document(productID)
-            newProductQuantity = int(productInfo.get().to_dict()['stockQuantity']) + 1
-            productInfo.update({'stockQuantity': str(newProductQuantity)})
-
-            return jsonify(alert='success')
-
-    return jsonify(alert='error')
-
-
-
-
-@app.route("/getexistingproducts")
-def getExistingProduct():
-    productsRef = db.collection('Products')
-
-    payload = []
-    for product in productsRef.stream():
-        productInfo = product.to_dict()
-        productID = hashlib.sha1(productInfo['productName'].encode('utf-8')).hexdigest()
-        content = {'id': productID, 'productName': productInfo['productName']}
-        payload.append(content)
-        content = {}
-
-    return jsonify(payload)
-
-
-@app.route("/getallproducts")
-def getAllProducts():
-    productsRef = db.collection('Products')
-
-    payload = []
-    for product in productsRef.stream():
-        productInfo = product.to_dict()
-        productID = hashlib.sha1(productInfo['productName'].encode('utf-8')).hexdigest()
-        content = {'id': productID, 'quantity': productInfo['stockQuantity'], 'productName': productInfo['productName'], 'productDesc': productInfo['description'], 'category': productInfo['category'], 'price': productInfo['price'], 'picture': productInfo['productImage']}
-        payload.append(content)
-        content = {}
-
-    return jsonify(payload)
-
-
-
-@app.route("/deleteproduct", methods = ['POST'])
-def deleteProduct():
-    productsRef = db.collection('Products')
-    data = request.json
-    id = data['id']
-
-    if session['isAdmin'] == True:
-        productInfo = productsRef.document(id).delete()
-    
-    payload = []
-    for product in productsRef.stream():
-        productInfo = product.to_dict()
-        productID = hashlib.sha1(productInfo['productName'].encode('utf-8')).hexdigest()
-        content = {'id': productID, 'quantity': productInfo['stockQuantity'], 'productName': productInfo['productName'], 'productDesc': productInfo['description'], 'category': productInfo['category'], 'price': productInfo['price'], 'picture': productInfo['productImage']}
-        payload.append(content)
-        content = {}
-
-    return jsonify(payload)
-
-
-
-@app.route("/alterfilter", methods = ['POST'])
-def alterFilter():
-    productsRef = db.collection('Products')
-    data = request.json
-    category = str(data['category'])
-
-    payload = []
-    for product in productsRef.stream():
-        productInfo = product.to_dict()
-
-        if category != productInfo['category'] and category != 'All':
-            continue
-        productID = hashlib.sha1(productInfo['productName'].encode('utf-8')).hexdigest()
-        content = {'id': productID, 'quantity': productInfo['stockQuantity'], 'productName': productInfo['productName'], 'productDesc': productInfo['description'], 'category': productInfo['category'], 'price': productInfo['price'], 'picture': productInfo['productImage']}
-        payload.append(content)
-        content = {}
-
-    return jsonify(payload)
-
-
-
-@app.route("/searchproduct", methods = ['POST'])
-def searchProduct():
-    productsRef = db.collection('Products')
-    data = request.json
-    searchQuery = str(data['search']).lower()
-
-    payload = []
-    for product in productsRef.stream():
-        productInfo = product.to_dict()
-        
-        if not productInfo['productName'].lower().startswith(searchQuery):
-            continue
-
-        productID = hashlib.sha1(productInfo['productName'].encode('utf-8')).hexdigest()
-        content = {'id': productID, 'quantity': productInfo['stockQuantity'], 'productName': productInfo['productName'], 'productDesc': productInfo['description'], 'category': productInfo['category'], 'price': productInfo['price'], 'picture': productInfo['productImage']}
-        payload.append(content)
-        content = {}
-
-    return jsonify(payload)
-
-
+##############################################################################
+#             Verification Functions                                         #
+##############################################################################
 
 @app.route('/verify', methods=['POST'])
 def verify():
@@ -323,7 +500,6 @@ def verify():
 
         stored_verification_code = user_data.get('verification_code', '')
         if str(verification_code) == str(stored_verification_code):
-            # Update the user's verification status in the database
             user_doc.update({'isVerified': True})
 
             return jsonify(alert="success")
@@ -331,104 +507,9 @@ def verify():
     return jsonify(alert="error")
 
 
-
-@app.route("/addtocart", methods=['POST'])
-def addToCart():
-    if request.method == 'POST':
-        cartsRef = db.collection('Carts')
-        data = request.json
-
-        productID = str(data['productID'])
-        userID = str(session['id'])
-
-        currentDate = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-
-        cartID = hashlib.sha1(currentDate.encode('utf-8')).hexdigest()
-
-        if session['isAdmin'] != True:         
-            cartsRef.document(cartID).set({
-                "productId": productID,
-                "userId": userID,
-                "date": currentDate
-            })
-            return jsonify(alert="success")
-
-        return jsonify(alert="error")
-    
-
-@app.route("/removefromcart", methods = ['POST'])
-def removeFromCart():
-    if request.method == 'POST':
-        data = request.json
-        cartsRef = db.collection('Carts')
-        productID = str(data['productID'])
-        userID = str(session['id'])
-
-        if session['isAdmin'] != True:
-            query = cartsRef.where('productId', '==', productID).where('userId', '==', userID)
-            for doc in query.get():
-                doc.reference.delete()
-
-            return jsonify(alert="success")
-        
-        return jsonify(alert="error")
-    
-
-
-@app.route("/getallcart")
-def getAllCart():
-    userId = str(session['id'])
-
-    if session['isAdmin'] != True:
-        # Assuming you have 'carts' and 'products' collections in Firestore
-        cartsRef = db.collection('Carts')
-        productRef = db.collection('Products')
-
-        # Query to get cart items for the user
-        cart_query = cartsRef.where('userId', '==', userId).stream()
-
-        # Retrieve product information for each cart item
-        payload = []
-        all_categories = {
-            0: 'Tshirt',
-            1: 'Pants',
-            2: 'Jacket',
-            3: 'Sweater',
-            4: 'Socks'
-        }
-
-        for cart_item in cart_query:
-            product_id = cart_item.get('productId')
-            product_doc = productRef.document(product_id).get()
-            cart_item_data = {
-                'id': cart_item.id,
-                'date': cart_item.get('date'),
-                'productName': product_doc.get('productName'),
-                'category': all_categories.get((product_doc.get('category'))),
-                'price': product_doc.get('price'),
-                'productImage': product_doc.get('productImage'),
-                'quantity': 1
-            }
-            payload.append(cart_item_data)
-
-        return jsonify(payload)
-
-    return jsonify(alert="error", message="Unauthorized")
-
-
-@app.route("/getcart")
-def getCart():
-    userId = int(session['id'])
-    cartsRef = db,collection('Carts')
-    cart_query = cartsRef.where('userId', '==', userId).stream()
-    payload = []
-
-    for item in cart_query:
-        payload.append(item.get('productId'))
-
-    return jsonify(payload)
-
-
+##############################################################################
+#             CONTACT Functions                                              #
+##############################################################################
 
 @app.route('/contact', methods=['POST'])
 def contact():
@@ -454,7 +535,9 @@ def contact():
         return jsonify(alert="error")
 
 
-
+##############################################################################
+#             Common Functions                                               #
+##############################################################################
 
 @app.route("/getusertype")
 @logged_in
@@ -462,7 +545,6 @@ def getUserType():
     if str(session['isAdmin']) == 'True':
         return jsonify(type = 'admin')
     return jsonify(type = 'customer')
-
 
 
 @app.route("/getusername")
@@ -487,3 +569,5 @@ def logout():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+##############################################################################
