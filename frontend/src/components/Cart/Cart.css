@@ -114,3 +114,36 @@ label.radio input:checked+span {
 .spec {
     font-size: 11px;
 }
+
+/* Add these styles to Cart.css */
+
+.type {
+    display: block;
+    margin-top: 15px;
+  }
+  
+  .radio {
+    display: inline-block;
+    margin-right: 15px;
+  }
+  
+  .credit-card-label {
+    margin-top: 15px;
+  }
+  
+  .credit-inputs {
+    width: 100%;
+  }
+  
+  .line {
+    margin-top: 20px;
+  }
+  
+  .information {
+    margin-top: 10px;
+  }
+  
+  .btn-block {
+    width: 100%;
+    margin-top: 15px;
+  }

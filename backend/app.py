@@ -169,6 +169,23 @@ def searchProduct():
     return jsonify(payload)
 
 ##############################################################################
+#             Discounts Functions                                            #
+##############################################################################
+@app.route("/getdiscount")
+def getDiscount():
+    currentDate = datetime.now().strftime("%Y/%m/%d")
+
+    discountRef = db.collection('Discount Table')
+    query = discountRef.where('discountDate', '==', currentDate).limit(1).stream()
+
+    for doc in query:
+        discount_data = doc.to_dict()
+        discount = float(discount_data.get('discountPercent', 0.0))
+        return jsonify({"discount": discount})
+
+    return jsonify({"discount": 0.0})
+
+##############################################################################
 #             Orders Functions                                              #
 ##############################################################################
 

@@ -85,11 +85,14 @@ export default function Cart() {
 
 
     const handleDiscount = () => {
-        fetch("/getdiscount").then(res => res.json()).then(res => {
+        fetch("/getdiscount")
+          .then((res) => res.json())
+          .then((res) => {
             console.log(res['discount'])
             setDiscount(parseFloat(res['discount']));
-        });
-    }
+          });
+      }
+    const discountedTotal = ((getTotalSum() - (discount * getTotalSum())) * 1.13).toFixed(2); 
 
     return (
         <div className="order-main-bg">
@@ -114,7 +117,7 @@ export default function Cart() {
                                 </div>
                             ))}
                         </div>
-                        <div><h3 className="center">Total Cost: $ {getTotalSum().toFixed(2)} CAD</h3></div>
+                        <div><h3 className="center">Total Cost: $ {discountedTotal} CAD</h3></div>
                     </div>
                 </div>
                 <div className="col-md-4">
@@ -140,7 +143,7 @@ export default function Cart() {
 
                         <hr className="line" />
                         <div className="d-flex justify-content-between information"><span>Subtotal</span><span>$ {getTotalSum().toFixed(2)} CAD</span></div>
-                        <div className="d-flex justify-content-between information"><span>Total (Incl. taxes 13%) and {discount*100}% discount</span><span>$ {((getTotalSum() - (discount * getTotalSum())) * 1.13).toFixed(2)} CAD</span></div>
+                        <div className="d-flex justify-content-between information"><span>Total (Incl. taxes 13%) and {discount*100}% discount</span><span>$ {discountedTotal} CAD</span></div>
                         <button onClick={handleDiscount} className={"btn btn-primary btn-block d-flex justify-content-between mt-3"}>Check for discount</button>
 
                         {
