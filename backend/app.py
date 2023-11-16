@@ -172,6 +172,58 @@ def searchProduct():
 #             Payment Functions                                               #
 ##############################################################################
 
+@app.route("/addpayment", methods=['POST'])
+def addPayment():
+    if request.method == 'POST':
+        data = request.json
+        userId = session['id']
+        cardType = data['cardType']
+        cartName = data['cardName']
+        cardNum = int(data['cardNum'])
+        cardDate = str(data['cardDate'])
+        cardCvv = int(data['cardCVV'])
+
+        if session['isAdmin'] != True:
+            user_payments_ref = db.collection('User Payments')
+            payment_id = hashlib.sha1(f"{userId}{cardNum}".encode('utf-8')).hexdigest()
+
+            existing_payment = user_payments_ref.where('userId', '==', userId).limit(1).stream()
+
+            if not any(existing_payment):
+                user_payments_ref.document(payment_id).set({
+                    'paymentProvider': cardType,
+                    'cardNum': cardNum,
+                    'paymentExpiryDate': cardDate,
+                    'cvv': cardCvv,
+                    'paymentName': cartName,
+                    'userId': userId
+                })
+                return jsonify(alert="success")
+
+        return jsonify(alert="error")
+
+@app.route("/trypaymentinfo", methods=['POST'])
+def tryPaymentInfo():
+    userId = session['id']
+    user_payments_ref = db.collection('User Payments')
+    
+    payment_query = user_payments_ref.where('userId', '==', userId).limit(1).stream()
+
+    for payment in payment_query:
+        payment_info = payment.to_dict()
+        content = {
+            'alert': 'success',
+            'paymentProvider': payment_info.get('paymentProvider', ''),
+            'cardNum': int(payment_info.get('cardNum', 0)),
+            'date': payment_info.get('paymentExpiryDate', ''),
+            'cvv': int(payment_info.get('cvv', 0)),
+            'name': payment_info.get('paymentName', '')
+        }
+        return jsonify(content)
+
+    return jsonify(alert="error")
+
+
 ##############################################################################
 #             CART Functions                                                 #
 ##############################################################################
@@ -183,7 +235,7 @@ def addToCart():
         data = request.json
 
         productID = str(data['productID'])
-        userID = str(session['id'])
+        userID = session['id']
 
         currentDate = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
 
@@ -208,7 +260,7 @@ def removeFromCart():
         cartsRef = db.collection('Carts')
         productID = str(data['productID'])
         print(productID)
-        userID = str(session['id'])
+        userID = session['id']
         print(userID)
 
         if session['isAdmin'] != True: 
@@ -223,7 +275,7 @@ def removeFromCart():
 
 @app.route("/getallcart")
 def getAllCart():
-    userId = str(session['id'])
+    userId = session['id']
 
     if session['isAdmin'] != True:
         cartsRef = db.collection('Carts')
@@ -258,7 +310,7 @@ def getAllCart():
 
 @app.route("/getcart")
 def getCart():
-    userId = int(session['id'])
+    userId = session['id']
     cartsRef = db.collection('Carts')
     cart_query = cartsRef.where('userId', '==', userId).stream()
     payload = []
@@ -271,7 +323,7 @@ def getCart():
 
 @app.route("/clearcart")
 def clearCart():
-    userId = (session['id'])
+    userId = session['id']
     cartsRef = db.collection('Carts')
     if session['isAdmin'] != True:
         clearCartQuery = cartsRef.where('userId', '==', userId)
@@ -280,64 +332,37 @@ def clearCart():
 
     return jsonify(alert="success")
 
+###########            Remove from Cart and Add to Orders           ###########
+@app.route("/removefrominventory")
+def removeFromInventory():
+    userId = session['id']
+    currentDate = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
 
+    if session['isAdmin'] != True:
+        cartsRef = db.collection('Carts')
+        productsRef = db.collection('Products')
 
-# @app.route("/addpayment", methods = ['POST'])
-# def addPayment():
-#     if request.method == 'POST':
-#         data = request.json
-#         random_id = random.randint(0, 1000)
-#         id = session['id']
+        cartQuery = cartsRef.where('userId', '==', userId).stream()
 
-#         customerID = session['id']
-#         cardType = data['cardType']
-#         cardName = data['cardName']
-#         cardNum = int(data['cardNum'])
-#         cardDate = str(data['cardDate'])
-#         cardCVV = int(data['cardCVV'])
+        productIdsArray = []
+        for item in cartQuery:
+            productId = item.get('productId')
+            productIdsArray.append(productId)
 
-#         if session['userType'] == 'customer':
-#             rv = db.execute(f"SELECT * FROM user_payments WHERE customer_id = {id}").fetchone()
+        for productId in productIdsArray:
+            ordersId = hashlib.sha1(f"{userId}{random.randint(0, 1000)}".encode('utf-8')).hexdigest()
+            productsRef.document(productId).update({'stockQuantity': firestore.Increment(-1)})
 
-#             if rv is None:
-#                 db.execute("INSERT INTO user_payments(payment_id, customer_id, payment_provider, card_num, payment_expiry_date, cvv, payment_name) VALUES(:pay_id, :cust_id, :pay_prov, :card_num, :expiry, :cvv, :name)", {"pay_id":random_id, "cust_id":customerID, "pay_prov":cardType, "card_num":cardNum, "expiry":cardDate, "cvv":cardCVV, "name":cardName})
-#                 db.commit()
-#             return jsonify(alert="success")
+            db.collection('Orders').document(ordersId).set({
+                'userId': userId,
+                'productId': productId,
+                'quantity': 1,
+                'datePurchased': currentDate
+            })
 
-#         return jsonify(alert="error")
+        return jsonify(alert="success")
 
-# @app.route("/trypaymentinfo", methods = ['POST'])
-# def tryPaymentInfo():
-#     id = session['id']
-#     rv = db.execute(f"SELECT * FROM user_payments WHERE customer_id = {id}").fetchone()
-    
-#     if rv is None:
-#         return jsonify(alert="error")
-
-#     content = {'alert':'success', 'paymentProvider': rv[2], 'cardNum': int(rv[3]), 'date':rv[4], 'cvv':int(rv[5]), 'name':rv[6]}
-#     return jsonify(content)
-
-
-# @app.route("/removefrominventory")
-# def removeFromInventory():
-#     id = int(session['id'])
-#     currentDate = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-
-    
-#     if session['userType'] == 'customer':
-#         rv = db.execute(f"SELECT * FROM carts INNER JOIN inventory USING(product_id) WHERE customer_id = {id}").fetchall()
-
-#         product_id = []
-#         for result in rv:
-#             product_id.append(int(result[0]))
-
-#         # equivalent to UPDATE "inventory SET quantity = quantity - 1 WHERE product_id in (all_id's)"
-#         for productID in product_id:
-#             random_id = random.randint(0, 1000)
-#             db.execute("INSERT INTO orders(order_id, customer_id, product_id, quantity, date_purchased) VALUES(:order_id, :customer_id, :product_id, :quantity, :date_added)", {"order_id":random_id, "customer_id":id, "product_id":productID, "quantity":1 ,"date_added":currentDate})
-#             db.execute("UPDATE inventory SET quantity = quantity - 1 WHERE product_id = :id", {'id':productID})
-#         db.commit()
-#     return jsonify(alert="success")
+    return jsonify(alert="error")
 
 
 ##############################################################################
