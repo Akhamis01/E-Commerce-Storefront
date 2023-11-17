@@ -114,7 +114,7 @@ const Main = () => {
                 </div>
 
                 <div className="products">
-                    <div className="card-group card">
+                    <div className="products-container">
                         {products.map((product, id) => (
                             <div id="card-recipe" className="card shadow p-3 mb-5 bg-white rounded cards" key={product.id} style={{width: "20rem"}}>
                                 {
