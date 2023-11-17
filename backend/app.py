@@ -158,7 +158,7 @@ def searchProduct():
     for product in productsRef.stream():
         productInfo = product.to_dict()
         
-        if not productInfo['productName'].startswith(searchQuery):
+        if not (productInfo['productName'].lower()).startswith(searchQuery.lower()):
             continue
 
         productID = hashlib.sha1(productInfo['productName'].encode('utf-8')).hexdigest()
