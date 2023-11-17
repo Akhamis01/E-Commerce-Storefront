@@ -7,7 +7,7 @@ import NavBar from '../NavBar/NavBar'
 const Main = () => {
     const [cart, setCart] = useState([]);
     const [products, setProducts] = useState([]);
-    const [category, setCategory] = useState('');
+    const [category, setCategory] = useState('All');
     const [userType, setUserType] = useState('');
     const [search, setSearch] = useState('');
 
@@ -22,7 +22,6 @@ const Main = () => {
 
         fetch("/getusertype").then(res => res.json()).then(data => {
             setUserType(data['type']);
-            console.log(data['type'])
         });
     }, [])
 
@@ -59,7 +58,7 @@ const Main = () => {
             headers:{
                 "Content-type":"application/json",
             },
-            body:JSON.stringify({categoryID: category})
+            body:JSON.stringify({'category': category})
         }).then(res => res.json()).then(data => {
             setProducts(data);
         })
@@ -87,7 +86,7 @@ const Main = () => {
             headers:{
                 "Content-type":"application/json",
             },
-            body:JSON.stringify({search: search})
+            body:JSON.stringify({'search': search})
         }).then(res => res.json()).then(data => {
             setProducts(data);
         })
@@ -97,14 +96,59 @@ const Main = () => {
         <div className="order-main-bg">
             <NavBar userType={userType}/>
             <div className="main-body">
-                
+                <div className="main-header">
+                    <h1>Products</h1>
+                    <h5>Select a category:</h5>
+                    <select onChange={(e) => setCategory(e.target.value)}>
+                        <option value='All'>All</option>
+                        <option value='Tshirt'>Tshirt</option>
+                        <option value='Pants'>Pants</option>
+                        <option value='Jacket'>Jacket</option>
+                        <option value='Sweater'>Sweater</option>
+                        <option value='Socks'>Socks</option>
+                    </select>
+                    <button type="button" onClick={handleFilter} className={`btn btn-outline-info`}>Apply Filter</button>
+                    <br></br>
+                    <input onChange={ (event) => setSearch(event.target.value) }/>
+                    <button type="button" onClick={handleSearch} className={`btn btn-outline-info`}>Search Product</button>
+                </div>
+
+                <div className="products">
+                    <div className="card-group card">
+                        {products.map((product, id) => (
+                            <div id="card-recipe" className="card shadow p-3 mb-5 bg-white rounded cards" key={product.id} style={{width: "20rem"}}>
+                                {
+                                    (userType === 'admin') ? (
+                                        <button value={product.id} onClick={handleDelete} id="x">X</button>
+                                    ) : null
+                                }
+                                <img className="card-img-top" src={product.picture} alt={product.productName} style={{height: "15rem"}} />
+                                <div className="card-body">
+                                    <hr/>
+                                    <h5 className="card-title">{product.productName}</h5>
+                                    <h4 className="prod-category">{product.category}</h4>
+                                    <h4 className="price">$ {(product.price).toFixed(2)} CAD</h4>
+                                    <h4 className="price">Amt. Available: {product.quantity}</h4>
+                                    {
+                                        (userType !== 'admin') ? (
+                                            (cart.includes(product.id.toString())) ? (
+                                                <button type="button" id={product.id} onClick={handleCart} className={`btn btn-outline-info btn-recipe inner-button selected`}>Remove from Cart</button>
+                                            ) : <button type="button" id={product.id} onClick={handleCart} className={`btn btn-outline-info btn-recipe inner-button`}>Add to Cart</button>
+                                        ) : null
+                                    }
+                                </div>
+                            </div>
+                        ))}
+
+                    </div>
+                </div>
             </div>
-                
+
             <footer className="footer">
-            <div className="footer-content">
-                <p>&copy; 2023 E-StoreFront. All rights reserved.</p>
-                <p><Link to="/contact">CONTACT US</Link></p>
-            </div>
+                <div className="footer-content">
+                    <p>&copy; 2023 E-StoreFront. All rights reserved.</p>
+                    <p><Link to="/contact">CONTACT US</Link></p>
+                </div>
             </footer>
         </div>
     );

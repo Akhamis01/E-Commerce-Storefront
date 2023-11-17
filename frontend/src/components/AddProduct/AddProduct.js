@@ -19,7 +19,6 @@ const AddProduct = () => {
     const navigate = useNavigate();
 
 
-
     useEffect(() => {
         fetch("/getexistingproducts").then(res => res.json()).then(data => {
             setProducts(data);
