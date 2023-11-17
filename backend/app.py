@@ -219,7 +219,7 @@ def getOrders():
                 'quantity': order.get('quantity'),
                 'date': order.get('datePurchased'),
                 'productName': productDoc.get('productName'),
-                'category': all_categories.get(int(productDoc.get('category'))),
+                'category': all_categories.get(productDoc.get('category')),
                 'price': productDoc.get('price')
             }
             payload.append(content)
