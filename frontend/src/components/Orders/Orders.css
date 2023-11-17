@@ -1,0 +1,19 @@
+.order-bg {
+    margin: auto;
+    margin-top: 100px;
+    width: 70%;
+    border: 5px solid #000000;
+    background-color:rgba(18, 79, 192, 0.25);
+    padding: auto;
+    border-radius: 20px;
+}
+
+#orders-btn{
+    margin-bottom: 10px;
+}
+
+.order-main-bg{
+    background-image: url("https://images.pexels.com/photos/2387818/pexels-photo-2387818.jpeg?cs=srgb&dl=pexels-adrien-olichon-2387818.jpg&fm=jpg://wallpaperset.com/w/full/c/4/8/45474.jpg");
+    background-size: cover;
+    height: 200vh;
+}
