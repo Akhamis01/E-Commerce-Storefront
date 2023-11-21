@@ -11,6 +11,7 @@ import Contact from './components/Contact/Contact';
 import AddProduct from './components/AddProduct/AddProduct';
 import Cart from './components/Cart/Cart';
 import Orders from './components/Orders/Orders';
+import ResetPassword from './components/ResetPassword/ResetPassword';
 
 const App = () => {
     
@@ -27,6 +28,7 @@ const App = () => {
                     <Route exact path="/addproduct" element={<AddProduct/>}/>
                     <Route exact path="/cart" element={<Cart/>}/>
                     <Route exact path="/orders" element={<Orders/>}/>
+                    <Route exact path="/reset-password" element={<ResetPassword/>}/>
                     <Route exact path="*" element={<NotFound/>}/>
                 </Routes>
             </Fragment>
