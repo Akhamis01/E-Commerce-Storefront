@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, session, url_for
 from functools import wraps
 import json
 import os
@@ -9,6 +9,9 @@ from datetime import datetime
 from firebase_admin import credentials, initialize_app, db, firestore
 from flask_mail import Mail, Message
 import hashlib
+import secrets
+from datetime import datetime, timedelta
+from itsdangerous import URLSafeTimedSerializer
 
 app = Flask(__name__)
 app.secret_key = "12345"
@@ -20,6 +23,7 @@ app.config['MAIL_USERNAME'] = 'cps714group19@gmail.com'
 app.config['MAIL_PASSWORD'] = 'tmsahizvhpitrubh'
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
+app.config['SECURITY_PASSWORD_SALT'] = 'secure'
 mail = Mail(app)
 
 cred = credentials.Certificate("./key.json")
@@ -35,6 +39,97 @@ def logged_in(f):
             return '<h1>Must be logged in to access this page</h1>'
     return wrap
 
+
+##############################################################################
+#             Reset Password  Functions                                      #
+##############################################################################
+
+def send_password_reset_email(username, reset_token, email):
+    reset_url = url_for('reset_password', token=reset_token, _external=True)
+    msg = Message('Password Reset Request', sender='cps714group19@gmail.com', recipients=[email])
+    msg.html = f"""
+                <html>
+                <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; text-align: center;">
+
+                    <div style="background-color: #3498db; color: #ffffff; padding: 20px;">
+                    <h2>Password Reset Request</h2>
+                    </div>
+
+                    <div style="background-color: #ffffff; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                    <p>Hello {username},</p>
+                    <p>We received a request to reset your password. Please use the following link to reset your password:</p>
+                    <a href="http://localhost:3000/reset-password?token={reset_token}" style="display: inline-block; padding: 10px 20px; background-color: #3498db; color: #ffffff; text-decoration: none; border-radius: 5px;">Reset Password</a>
+                    <p>If you did not request this, please ignore this email. Your reset token is: {reset_token}</p>
+                    </div>
+
+                    <p style="color: #7f8c8d;">This is an automated email. Please do not reply.</p>
+                </body>
+                </html>
+                """
+    mail.send(msg)
+
+def generate_reset_token(userId):
+    serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+    return serializer.dumps(userId, salt=app.config['SECURITY_PASSWORD_SALT'])
+
+# Function to save reset token in the database
+def save_reset_token(userId, reset_token):
+    reset_expiry = datetime.now() + timedelta(hours=1)  # Token expires in 1 hour
+    db.collection('PasswordReset').document(userId).set({
+        'reset_token': reset_token,
+        'expiry_time': reset_expiry
+    })
+
+def verify_reset_token(reset_token):
+    serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+    try:
+        userId = serializer.loads(reset_token, salt=app.config['SECURITY_PASSWORD_SALT'], max_age=3600)
+        return userId
+    except Exception as e:
+        print(f"Error verifying reset token: {e}")
+        return None
+
+@app.route("/forgot-password", methods=['POST'])
+def forgot_password():
+    print("HERE")
+    data = request.json
+    email = data.get('email')
+
+    user_query = db.collection('Users').where('email', '==', email).limit(1)
+    user = user_query.get()
+
+    if user_query.stream():
+        print("one")
+     
+        user_data = user[0].to_dict()
+        userId = user[0].id
+        print(user_data)
+        print(userId)
+        reset_token = generate_reset_token(userId)
+        save_reset_token(userId, reset_token)
+
+        # Assuming 'username' is a field in your user data
+        send_password_reset_email(user_data.get('username'), reset_token, email)
+
+        return jsonify(alert="success")
+    else:
+        print("two")
+        return jsonify(alert="error", message="User not found")
+
+@app.route("/reset-password", methods=['POST'])
+def reset_password():
+    data = request.json
+    reset_token = data.get('resetToken')
+    new_password = data.get('newPassword')
+
+    userId = verify_reset_token(reset_token)
+
+    if userId:
+        hashed_password = hashlib.sha1(new_password.encode('utf-8')).hexdigest()
+        db.collection('Users').document(userId).update({'password': hashed_password})
+        return jsonify(alert="success", message="Password reset successfully")
+    else:
+        return jsonify(alert="error", message="Invalid or expired reset token")
 
 ##############################################################################
 #             Add Products Functions                                        #
