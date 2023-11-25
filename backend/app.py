@@ -738,6 +738,15 @@ def contact():
         print(jsonify(alert="error"))
         return jsonify(alert="error")
 
+@app.route('/getFeedback', methods=['GET'])
+def getFeedback():
+    feedbackRef = db.collection('Feedback')
+
+    payload = []
+    for feedback in feedbackRef.stream():
+        payload.append(feedback.to_dict())
+
+    return jsonify(payload)
 
 ##############################################################################
 #             Common Functions                                               #
