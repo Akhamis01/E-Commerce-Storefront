@@ -1,157 +1,68 @@
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <sys/signal.h>
-#include <sys/wait.h>
-#include <stdlib.h>
-#include <string.h>
-#include <strings.h>
-#include <dirent.h>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <netdb.h>
+import React from 'react'
+import 'bootstrap/dist/css/bootstrap.css';
+import './NavBar.css';
 
-#define SERVER_TCP_PORT 3000
-#define BUFLEN 256
-#define LENGTH 512
-#define dataSize 100
+const NavBar = ({userType}) => {
+    const handleLogout = (e) => {
+        fetch("/logout", {
+            method:"GET",
+            cache: "no-cache",
+            headers:{
+                "Content-type":"application/json",
+            },
+        })
+    };
 
-struct pdu_header
-        {
-            char type;
-            unsigned int len;
-            char data[dataSize];
-        }server_header, transfer_PDU, receive_PDU, name, upload;
-
-int main(int argc, char **argv){
-    int n, i, bytes_to_read;
-    int sd, port;
-    struct hostent *hp;
-    struct sockaddr_in server;
-    struct stat fstat;
-    char type,*host, *bp, rbuf[BUFLEN], sbuf[BUFLEN], wbuf[BUFLEN];
-    char f_name[256];
-
-    switch(argc){
-        case 2:
-            host = argv[1];
-            port = SERVER_TCP_PORT;
-            break;
-        case 3:
-            host = argv[1];
-            port = atoi(argv[2]);
-            break;
-        default:
-            fprintf(stderr, "Usage: %s host [port]\n", argv[0]);
-            exit(1);
-    }
-
-    if (hp = gethostbyname(host)){
-        bcopy(hp->h_addr, (char *)&server.sin_addr, hp->h_length);
-    }
-    else if (inet_aton(host, (struct in_addr *) &server.sin_addr)){
-        fprintf(stderr, "Can't get servers address\n");
-        exit(1);
-    }
-
-    if (connect(sd, (struct sockaddr *)&server, sizeof(server)) == -1) {
-        fprintf(stderr, "Cant connect\n");
-        exit(1);
-    }
-
-    int length;
-    printf("What would you like to do? \n");
-    printf("Press D for Download \n");
-    printf("Press U for Upload \n");
-    printf("Press L for a list of Files within Directory \n");
-    printf("Press P to change the path \n");
-
-    scanf("%c", &type);
-
-    if (type == 'D') {
-        printf("Enter the name of the file you wish to download : \n");
-        n = read(0, transfer_PDU.data, 256);
-        transfer_PDU.len = strlen(transfer_PDU.data);
-        transfer_PDU.type = 'D';
-        strcpy(f_name, transfer_PDU.data);
-        strcpt(f_name,".txt");
-        write(sd, &transfer_PDU, BUFLEN);
-        n = read(sd, &receive_PDU, BUFLEN);
-        if (receive_PDU.type != 'F'){
-            printf("Error occured, file not received");
-        }
-        else {
-            FILE *fp = fopen(f_name, "w+");
-            fprintf(fp, "%s", receive_PDU.data);
-            printf("File Received.\n");
-            fclose(fp);
-        }
-    }
-
-    else if(type == 'U'){
-        printf("Enter the name of the file you want to upload");
-        n = read(0, &name.data, BUFLEN);
-        name.data[n-1] = '\0';
-        name.len = strlen(name.data);
-        name.type = 'U';
-        printf("Name of file to upload: %s\n", name.data);
-        write(sd, &name, BUFLEN);
-        n = read(sd,&server_header, BUFLEN);
-        if (server_header.type == 'R') {
-            upload.type = 'F';
-            printf("Sending %s. \n", name.data);
-            if (strcmp(name.data,"happy") == 0){
-                FILE *fp = fopen("happy.txt", "r");
-                n = fread(upload.data,1,256,fp);
-                write(sd, &upload, BUFLEN);
-            }
-            else if (strcmp(name.data,"revolver")==0)  {
-                FILE *fp = fopen("revolver.txt", "r");
-                n = fread(upload.data,1,256,fp);
-                write(sd, &upload, BUFLEN);
-            }
-            else {
-                write(sd, "Error \n", 6);
-                perror("Cannot open the file");
-            }
-        }
-    }
-
-    else if (type == 'P') {
-        transfer_PDU.type = 'P';
-        printf("Enter the folder name you want \n");
-        n = read(0, &transfer_PDU.data, BUFLEN);
-        transfer_PDU.len = strlen(transfer_PDU.data);
-        write(sd, &transfer_PDU, BUFLEN);
-        n = read(sd, &receive_PDU, BUFLEN);
-        if (receive_PDU.type != 'R') {
-            printf("Server not ready yet\n");
-        }
-        else {
-            printf("Path has been changed\n");
-        }
-    }
-
-    else if (type == 'L') {
-        transfer_PDU.type = 'L';
-        printf("Enter Directory: \n");
-        n = read(0, &transfer_PDU.data, BUFLEN);
-        transfer_PDU.len = strlen(transfer_PDU.data);
-        write(sd, &transfer_PDU, BUFLEN);
-        if (receive_PDU.type == 'I') {
-            printf("List of Directories : \n");
-            printf("%s\n", receive_PDU.data); 
-        }
-        else if(receive_PDU.type == 'E'){
-            printf("%c\n", receive_PDU.type);
-            printf("NO such directory");
-        }
-        else {
-            printf("%c", receive_PDU.type);
-            printf("Error\n");
-        }
-    }
-    close(sd);
-    return(0);
+    return (
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <div className="container-fluid d-flex">
+                <div className="flex-grow-1">
+                    <a href="/home">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+                            <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+                        </svg>
+                    </a>
+                </div>
+                <div>
+                    <a className="navbar-brand" href="/cart">
+                        <img src="https://static.vecteezy.com/system/resources/previews/016/016/817/non_2x/ecommerce-logo-free-png.png" height="50" alt="" loading="lazy"/>
+                    </a>
+                </div>
+                <button className="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i className="fas fa-bars"></i>
+                </button>
+                {/* <div className="collapse navbar-collapse" id="navbarSupportedContent"> */}
+                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                        {
+                            (userType === 'admin') ? (
+                                    <li className="nav-item">
+                                        {/* <a className="nav-link button-primary" href="/addproduct">Add Products</a> */}
+                                    </li>
+                            ) : null
+                        }
+                    </ul>
+                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                        {
+                            (userType === 'admin') ? (
+                                    <li className="nav-item">
+                                        <a type="button" className="btn btn-primary me-3" href="/feedback">Feedback</a>
+                                    </li>
+                            ) : null
+                        }
+                    </ul>
+                    <div className="d-flex align-items-center">
+                        {<a href="/orders" type="button" className="btn btn-secondary me-3">Orders</a>}
+                        {
+                            (userType !== 'admin') ? (
+                                <a href="/cart" type="button" className="btn btn-secondary me-3">Cart</a>
+                            ) : null
+                        } 
+                        <a href="/login" onClick={handleLogout} type="button" className="btn btn-primary me-3">Logout</a>
+                    </div>
+                {/* </div> */}
+            </div>
+        </nav>
+    )
 }
+
+export default NavBar;
