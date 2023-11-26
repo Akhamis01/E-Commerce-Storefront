@@ -51,12 +51,12 @@ const NavBar = ({userType}) => {
                         }
                     </ul>
                     <div className="d-flex align-items-center">
-                        {/* <a href="/orders" type="button" className="btn btn-secondary me-3">Orders</a> */}
-                        {/* {
+                        {<a href="/orders" type="button" className="btn btn-secondary me-3">Orders</a>}
+                        {
                             (userType !== 'admin') ? (
                                 <a href="/cart" type="button" className="btn btn-secondary me-3">Cart</a>
                             ) : null
-                        } */}
+                        } 
                         <a href="/login" onClick={handleLogout} type="button" className="btn btn-primary me-3">Logout</a>
                     </div>
                 {/* </div> */}
