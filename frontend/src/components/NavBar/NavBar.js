@@ -31,7 +31,7 @@ const NavBar = ({userType}) => {
                         {
                             (userType === 'admin') ? (
                                     <li className="nav-item">
-                                        {<a className="nav-link button-primary" href="/addproduct">Add Products</a>}
+                                        {<a className="btn-primary me-3 btn" href="/addproduct">Add Products</a>}
                                     </li>
                             ) : null
                         }
