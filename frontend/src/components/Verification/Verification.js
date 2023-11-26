@@ -1,6 +1,7 @@
 // Verification.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Verification.css';
 
 const Verification = () => {
    const [verificationCode, setVerificationCode] = useState('');
@@ -28,32 +29,26 @@ const Verification = () => {
          });
    };
 
-   return (
-      <div className="verification-body order-main-bg">
-         <h1 style={{ color: 'white' }}>Verification</h1>
-         <form onSubmit={handleSubmit}>
-            <div className="form-group">
-               <label htmlFor="verificationCode">
-                  Enter Verification Code:
-               </label>
-               <input
-                  type="text"
-                  placeholder="Verification Code"
-                  name="verificationCode"
-                  value={verificationCode}
-                  onChange={(event) => setVerificationCode(event.target.value)}
-                  required
-               />
-            </div>
-            {error && (
-               <p style={{ color: 'red' }}>
-                  Invalid verification code. Please try again.
-               </p>
-            )}
-            <button type="submit">Verify</button>
-         </form>
-      </div>
-   );
+    return (
+        <div className="verification-body order-main-bg">
+            <form onSubmit={handleSubmit} className="container">
+                <h1>Verification</h1>
+                <div className="form-group">
+                    <label htmlFor="verificationCode">Enter Verification Code:</label>
+                    <input
+                        type="text"
+                        placeholder="Verification Code"
+                        name="verificationCode"
+                        value={verificationCode}
+                        onChange={(event) => setVerificationCode(event.target.value)}
+                        required
+                    />
+                </div>
+                {error && <p style={{ color: "red" }}>Invalid verification code. Please try again.</p>}
+                <button type="submit">Verify</button>
+            </form>
+        </div>
+    );
 };
 
 export default Verification;
