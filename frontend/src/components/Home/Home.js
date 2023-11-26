@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import NavBar from '../NavBar/NavBar';
 import './Home.css';
 
-export const Footer = () => {
+const Footer = () => {
    return (
       <footer className="footer">
          <div className="footer-content">

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import NavBar from '../NavBar/NavBar';
 import './Cart.css';
-import { Footer } from '../Home/Home';
 
 export default function Cart() {
    const [cardName, setCardName] = useState('');
@@ -335,7 +334,6 @@ export default function Cart() {
                </div>
             </div>
          </div>
-         <Footer />
       </div>
    );
 }
