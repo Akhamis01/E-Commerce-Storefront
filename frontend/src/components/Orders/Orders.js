@@ -20,7 +20,7 @@ const Orders = () => {
         <div className="order-main-bg">
             <NavBar userType={userType}/>
             <div className = "table-responsive center order-bg" style={{width: 1000, }}>
-                <h1>Orders:</h1>
+                <h1 style={{ color: 'white' }}>Orders:</h1>
                 <div><a id="orders-btn" className="btn btn-primary btn-rounded" href="/home">Back to shopping</a></div>
 
                 <table className="table table-striped table-bordered" width = "100">
@@ -29,25 +29,22 @@ const Orders = () => {
                             <th scope="col">Order #</th>
                             <th scope="col">Customer ID</th>
                             <th scope="col">Product Name</th>
-                            <th scope="col">Category</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Price</th>
                             <th scope="col">Date</th>
                     </tr>
                     </thead>
                     <tbody>
-
-                    {orders.map((order) => (
-                        <tr>
-                            <th scope="row">{order.orderId}</th>
-                            <th scope="row">{order.userId}</th>
-                            <th scope="row">{order.productName}</th>
-                            <th scope="row">{order.category}</th>
-                            <th scope="row">{order.quantity}</th>
-                            <th scope="row">$ {(order.price).toFixed(2)} CAD</th>
-                            <th scope="row">{(order.date).substring(0, order.date.length - 13)}</th>
-                        </tr>
-                    ))}
+                        {orders.map((order) => (
+                            <tr key={order.orderId}> {/* Added a key prop for each row */}
+                                <th scope="row">{`${order.orderId.substring(0, 4)}**`}</th>
+                                <th scope="row">{`${order.userId.substring(0, 4)}**`}</th>
+                                <th scope="row">{order.productName}</th>
+                                <th scope="row">{order.quantity}</th>
+                                <th scope="row">$ {(order.price).toFixed(2)} CAD</th>
+                                <th scope="row">{(order.date).substring(0, order.date.length - 8)}</th>
+                            </tr>
+                        ))}
                     </tbody> 
                 </table>
             </div>
