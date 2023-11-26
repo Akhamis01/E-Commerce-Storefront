@@ -14,7 +14,7 @@ const NavBar = ({userType}) => {
     };
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
                 <a className="navbar-brand" href="/home">
                     <img src="https://static.vecteezy.com/system/resources/previews/016/016/817/non_2x/ecommerce-logo-free-png.png" height="50" alt="" loading="lazy"/>
@@ -27,18 +27,18 @@ const NavBar = ({userType}) => {
                     {
                         (userType === 'admin') ? (
                                 <li className="nav-item">
-                                    {/* <a className="nav-link button-primary" href="/addproduct">Add Products</a> */}
+                                    <a className="nav-link button-primary" href="/addproduct">Add Products</a>
                                 </li>
                         ) : null
                     }
                 </ul>
                     <div className="d-flex align-items-center">
-                        {/* <a href="/orders" type="button" className="btn btn-secondary me-3">Orders</a> */}
-                        {/* {
+                        <a href="/orders" type="button" className="btn btn-secondary me-3">Orders</a>
+                        {
                             (userType !== 'admin') ? (
                                 <a href="/cart" type="button" className="btn btn-secondary me-3">Cart</a>
                             ) : null
-                        } */}
+                        }
                         <a href="/login" onClick={handleLogout} type="button" className="btn btn-primary me-3">Logout</a>
                     </div>
                 </div>
