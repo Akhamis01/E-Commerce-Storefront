@@ -101,9 +101,9 @@ const ResetPassword = () => {
               </div>
               {/* Submit button */}
               <div className="text-center text-lg-start mt-4 pt-2">
-                <button className = 'button-reset'
+                <button
                   type="submit"
-                  className="btn btn-primary btn-lg btn-reset-password"
+                  className="btn btn-primary btn-lg btn-reset-password button-reset"
                 >
                   Reset Password
                 </button>
@@ -114,6 +114,14 @@ const ResetPassword = () => {
                   {resetResult.message}
                 </div>
               )}
+
+              {
+                (resetResult.alert === 'success') ? (
+                  <div>
+                    <a className="btn btn-primary btn-rounded" href="/login">Login Page</a>
+                  </div>
+                ) : null
+              }
             </form>
           </div>
         </div>

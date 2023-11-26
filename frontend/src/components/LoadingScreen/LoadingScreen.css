@@ -5,7 +5,9 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #242f3f;
+    /* background-color: #242f3f; */
+    background: #474747;
+    background: linear-gradient(135deg, #474747, #161616);
     display: flex;
     justify-content: center;
     align-items: center;

@@ -15,6 +15,7 @@ const Login = () => {
     const [forgotPasswordError, setForgotPasswordError] = useState('');
     const [forgotPasswordSuccess, setForgotPasswordSuccess] = useState('');
     const [showForgotPassword, setShowForgotPassword] = useState(false);
+    const [loadingSpinner, setLoadingSpinner] = useState('none');
     const navigate = useNavigate();
 
 
@@ -56,6 +57,7 @@ const Login = () => {
 
     const handleForgotPassword = (e) => {
         e.preventDefault();
+        setLoadingSpinner('block');
         setForgotPasswordError('');
         fetch("/forgot-password", {
           method: "POST",
@@ -70,16 +72,20 @@ const Login = () => {
           if (res.alert === 'success') {
             console.log("Password reset initiated successfully");
             setForgotPasswordSuccess(true);
+            setLoadingSpinner('none');
           } else if (res.alert === 'error' && res.message === 'user_not_found') {
             setForgotPasswordError('Username not found. Please check the entered username.');
+            setLoadingSpinner('none');
           } else {
             console.log("Error:", res.message);
             setForgotPasswordError('Email not found.');
+            setLoadingSpinner('none');
           }
         })
         .catch(error => {
           console.error("Error:", error);
           setForgotPasswordError('Email not found.');
+          setLoadingSpinner('none');
         });
       };
 
@@ -111,7 +117,7 @@ const Login = () => {
                     <a className="btn btn-primary btn-rounded" type="submit" href="/registration">Register Here!</a>
                     {/* Toggle for showing/hiding forgot password form */}
                     <button
-                        className="btn btn-link btn-sm"
+                        className="btn btn-primary btn-rounded"
                         type="button"
                         onClick={() => setShowForgotPassword(!showForgotPassword)}
                     >
@@ -124,6 +130,9 @@ const Login = () => {
                             <label htmlFor="email"><b>Email</b></label>
                             <input type="email" placeholder="Enter Email" name="email" className="form-control" onChange={(event) => setEmail(event.target.value)} required />
                             <button className="btn btn-primary btn-rounded" type="button" onClick={handleForgotPassword}>Reset Password</button>
+                            <div class="spinner-border" style={{marginLeft: "20px", marginTop: "5px", display: loadingSpinner}}>
+                                <span class="sr-only"></span>
+                            </div>
                             {forgotPasswordSuccess && (
                             <p style={{ color: "green" }}>Email sent successfully. Check your inbox for further instructions.</p>
                             )}

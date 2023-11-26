@@ -13,7 +13,11 @@
 }
 
 .order-main-bg{
-    background-image: url("https://images.pexels.com/photos/2387818/pexels-photo-2387818.jpeg?cs=srgb&dl=pexels-adrien-olichon-2387818.jpg&fm=jpg://wallpaperset.com/w/full/c/4/8/45474.jpg");
+    /* background-image: url("https://images.pexels.com/photos/2387818/pexels-photo-2387818.jpeg?cs=srgb&dl=pexels-adrien-olichon-2387818.jpg&fm=jpg://wallpaperset.com/w/full/c/4/8/45474.jpg"); */
+    /* background: #282828;
+    background: linear-gradient(135deg, #282828, #070707); */
+    background: #474747;
+    background: linear-gradient(135deg, #474747, #161616);
     background-size: cover;
-    height: 200vh;
+    height: 100vh;
 }

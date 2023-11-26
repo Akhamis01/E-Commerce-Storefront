@@ -6,9 +6,6 @@ body {
     box-sizing: border-box;
 }
 
-.main-body{
-    background-image: url("https://images.pexels.com/photos/2387818/pexels-photo-2387818.jpeg?cs=srgb&dl=pexels-adrien-olichon-2387818.jpg&fm=jpg://wallpaperset.com/w/full/c/4/8/45474.jpg");
-}
 
 .btn-recipe{
     opacity: 0;
@@ -88,10 +85,6 @@ body {
 
 .product-pic{
     width: 100px;
-}
-
-.card-group{
-    background-image: url("https://images.pexels.com/photos/2387818/pexels-photo-2387818.jpeg?cs=srgb&dl=pexels-adrien-olichon-2387818.jpg&fm=jpg://wallpaperset.com/w/full/c/4/8/45474.jpg");
 }
 
 .prod-category{

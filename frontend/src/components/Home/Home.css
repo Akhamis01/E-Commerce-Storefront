@@ -7,7 +7,11 @@ body {
 }
 
 .main-body{
-    background-image: url("https://images.pexels.com/photos/2387818/pexels-photo-2387818.jpeg?cs=srgb&dl=pexels-adrien-olichon-2387818.jpg&fm=jpg://wallpaperset.com/w/full/c/4/8/45474.jpg");
+    /* background-image: url("https://images.pexels.com/photos/2387818/pexels-photo-2387818.jpeg?cs=srgb&dl=pexels-adrien-olichon-2387818.jpg&fm=jpg://wallpaperset.com/w/full/c/4/8/45474.jpg"); */
+    /* background: #282828;
+    background: linear-gradient(135deg, #282828, #070707); */
+    background: #474747;
+    background: linear-gradient(135deg, #474747, #161616);
 }
 
 .btn-recipe{
@@ -95,7 +99,11 @@ body {
 }
 
 .card-group{
-    background-image: url("https://images.pexels.com/photos/2387818/pexels-photo-2387818.jpeg?cs=srgb&dl=pexels-adrien-olichon-2387818.jpg&fm=jpg://wallpaperset.com/w/full/c/4/8/45474.jpg");
+    /* background-image: url("https://images.pexels.com/photos/2387818/pexels-photo-2387818.jpeg?cs=srgb&dl=pexels-adrien-olichon-2387818.jpg&fm=jpg://wallpaperset.com/w/full/c/4/8/45474.jpg"); */
+    /* background: #282828;
+    background: linear-gradient(135deg, #282828, #070707); */
+    background: #474747;
+    background: linear-gradient(135deg, #474747, #161616);
 }
 
 .prod-category{
@@ -151,7 +159,9 @@ body {
 
 
 .home-header {
-    background-color: #212529;
+    /* background-color: #212529; */
+    background: #474747;
+    background: linear-gradient(135deg, #474747, #161616);
     color: #fff;
     padding: 10px;
     text-align: center;
