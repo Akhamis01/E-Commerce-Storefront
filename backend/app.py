@@ -309,7 +309,7 @@ def getOrders():
             
             content = {
                 'productId': productId,
-                'order_id': order.id,
+                'orderId': order.id,
                 'userId': order.get('userId'),
                 'quantity': order.get('quantity'),
                 'date': order.get('datePurchased'),
