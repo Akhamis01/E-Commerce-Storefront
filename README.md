@@ -4,6 +4,8 @@ E-commerce store web application with industry standard features. Functionality 
 
 ## Getting started
 
+Setup the backend and frontend separately, then visit http://localhost:3000/home to view the application.
+
 ### Setup backend
 
 ```bash
