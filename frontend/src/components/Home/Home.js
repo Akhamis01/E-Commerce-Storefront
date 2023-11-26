@@ -96,7 +96,7 @@ const Main = () => {
         <div className="order-main-bg">
             <NavBar userType={userType}/>
             <header className='home-header'>
-                <h1>All Products</h1>
+                <h1 style={{color: "white"}}>All Products</h1>
                 <select onChange={(e) => setCategory(e.target.value)}>
                     <option value='All'>All</option>
                     <option value='Tshirt'>Tshirt</option>

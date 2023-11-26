@@ -14,7 +14,7 @@ const NavBar = ({userType}) => {
     };
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid d-flex">
                 <div className="flex-grow-1">
                     <a href="/home">
@@ -49,9 +49,7 @@ const NavBar = ({userType}) => {
                         {<a href="/orders" type="button" className="btn btn-secondary me-3">Orders</a>}
                         {
                             (userType !== 'admin') ? (
-                                 <a className="navbar-brand" href="/cart">
-                                    <img src="https://static.vecteezy.com/system/resources/previews/016/016/817/non_2x/ecommerce-logo-free-png.png" height="50" alt="" loading="lazy"/>
-                                 </a>
+                                <a type="button" className="btn btn-primary me-3" href="/cart">Cart</a>
                             ) : null
                         } 
                         <a href="/login" onClick={handleLogout} type="button" className="btn btn-primary me-3">Logout</a>
