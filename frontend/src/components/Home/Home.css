@@ -1,225 +1,229 @@
 body {
-    font-family: Arial, Helvetica, sans-serif;
+   font-family: Arial, Helvetica, sans-serif;
 }
 
 * {
-    box-sizing: border-box;
+   box-sizing: border-box;
 }
 
-.main-body{
-    /* background-image: url("https://images.pexels.com/photos/2387818/pexels-photo-2387818.jpeg?cs=srgb&dl=pexels-adrien-olichon-2387818.jpg&fm=jpg://wallpaperset.com/w/full/c/4/8/45474.jpg"); */
-    /* background: #282828;
+.main-body {
+   /* background-image: url("https://images.pexels.com/photos/2387818/pexels-photo-2387818.jpeg?cs=srgb&dl=pexels-adrien-olichon-2387818.jpg&fm=jpg://wallpaperset.com/w/full/c/4/8/45474.jpg"); */
+   /* background: #282828;
     background: linear-gradient(135deg, #282828, #070707); */
-    background: #474747;
-    background: linear-gradient(135deg, #474747, #161616);
+   background: #474747;
+   background: linear-gradient(135deg, #474747, #161616);
 }
 
-.btn-recipe{
-    opacity: 0;
-    display: block;
+.btn-recipe {
+   opacity: 0;
+   display: block;
 }
 
-#card-recipe{
-    transition: transform .2s;
-    max-width: 20%;
-    margin-left: 35px;
+#card-recipe {
+   transition: transform 0.2s;
+   max-width: 20%;
+   margin-left: 35px;
 }
 
-.selected{
-    background-color: red !important;
+.selected {
+   background-color: red !important;
 }
 
-.selected:hover{
-    background-color: rgb(252, 65, 65) !important;
+.selected:hover {
+   background-color: rgb(252, 65, 65) !important;
 }
 
-#card-recipe:hover{
-    transform: scale(1.15);
+#card-recipe:hover {
+   transform: scale(1.15);
 }
 
-#card-recipe:hover .btn-recipe{
-    opacity: 1;
-    transition: 0.6s ease;
+#card-recipe:hover .btn-recipe {
+   opacity: 1;
+   transition: 0.6s ease;
 }
 
-.card-body{
-    min-height: 225px;
+.card-body {
+   min-height: 225px;
 }
 
-.card{
-    box-shadow: 0px 4px 8px 0 rgba(0, 0, 0, 0.2);
-    max-height: 100%;
-    margin-left: 20px;
-    text-align: center;
-    padding: auto;
+.card {
+   box-shadow: 0px 4px 8px 0 rgba(0, 0, 0, 0.2);
+   max-height: 100%;
+   margin-left: 20px;
+   text-align: center;
+   padding: auto;
 }
 
-
-.card-body{
-    max-height: 100px;
+.card-body {
+   max-height: 100px;
 }
 
 .card-group {
-    margin: 0 auto;
-    text-align: center;
-    font-family: arial;
-    padding: 100px;
-    padding-top: 50px;
-}
-  
-.price {
-    color: grey;
-    font-size: 22px;
-}
-  
-.card .inner-button {
-    border: none;
-    outline: 0;
-    padding: 12px;
-    color: white;
-    background-color: #000;
-    text-align: center;
-    cursor: pointer;
-    width: 100%;
-    font-size: 18px;
+   margin: 0 auto;
+   text-align: center;
+   font-family: arial;
+   padding: 100px;
+   padding-top: 50px;
 }
 
-.main-header{
-    margin-left: 45%;
-    margin-bottom: 10px;
+.price {
+   color: grey;
+   font-size: 22px;
+}
+
+.card .inner-button {
+   border: none;
+   outline: 0;
+   padding: 12px;
+   color: white;
+   background-color: #000;
+   text-align: center;
+   cursor: pointer;
+   width: 100%;
+   font-size: 18px;
+}
+
+.main-header {
+   margin-left: 45%;
+   margin-bottom: 10px;
 }
 
 /* .card button:hover {
     opacity: 0.7;
 } */
 
-
-.product-pic{
-    width: 100px;
+.product-pic {
+   width: 100px;
 }
 
-.card-group{
-    /* background-image: url("https://images.pexels.com/photos/2387818/pexels-photo-2387818.jpeg?cs=srgb&dl=pexels-adrien-olichon-2387818.jpg&fm=jpg://wallpaperset.com/w/full/c/4/8/45474.jpg"); */
-    /* background: #282828;
+.card-group {
+   /* background-image: url("https://images.pexels.com/photos/2387818/pexels-photo-2387818.jpeg?cs=srgb&dl=pexels-adrien-olichon-2387818.jpg&fm=jpg://wallpaperset.com/w/full/c/4/8/45474.jpg"); */
+   /* background: #282828;
     background: linear-gradient(135deg, #282828, #070707); */
-    background: #474747;
-    background: linear-gradient(135deg, #474747, #161616);
+   background: #474747;
+   background: linear-gradient(135deg, #474747, #161616);
 }
 
-.prod-category{
-    color: lightcoral;
+.prod-category {
+   color: lightcoral;
 }
 
 #x {
-    position: absolute;
-    background: red;
-    color: white;
-    top: -10px;
-    right: -10px;
+   position: absolute;
+   background: red;
+   color: white;
+   top: -10px;
+   right: -10px;
 }
 
 .footer {
-    background-color: #cecece;
-    color: #fff;
-    padding: 10px 0;
-    text-align: center;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-  }
-    
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
+   background-color: #cecece;
+   color: #fff;
+   padding: 10px 0;
+   text-align: center;
+   position: fixed;
+   width: 100%;
+   bottom: 0;
 }
 
+.footer-content {
+   max-width: 1200px;
+   margin: 0 auto;
+}
 
 .footer p {
-    color: black;
-    margin: 3px 0;
+   color: black;
+   margin: 3px 0;
+   font-size: small;
 }
 
 .products-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
-  .cards {
-    width: calc(25% - 20px);
-    margin-bottom: 20px;
-  }
-  
-  @media (max-width: 768px) {
-    .cards {
-      width: calc(50% - 20px);
-    }
-  }
-  
-
-
-.home-header {
-    /* background-color: #212529; */
-    background: #474747;
-    background: linear-gradient(135deg, #474747, #161616);
-    color: #fff;
-    padding: 10px;
-    text-align: center;
-    border-top: 1px solid black;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-between;
 }
 
+.cards {
+   width: calc(25% - 20px);
+   margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+   .cards {
+      width: calc(50% - 20px);
+   }
+}
+
+.home-header {
+   /* background-color: #212529; */
+   background: #474747;
+   background: linear-gradient(135deg, #474747, #161616);
+   color: #fff;
+   padding: 10px;
+   text-align: center;
+   border-top: 1px solid black;
+}
+
+.home-header button {
+   margin: 1em;
+}
+
+.home-header h1 {
+   font-size: 2.5em;
+   margin-bottom: 0.4em;
+}
 
 .home-section {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 20px;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-around;
+   padding: 20px;
 }
 
 .product-home {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin: 10px;
-    padding: 15px;
-    text-align: center;
-    width: 250px;
+   background-color: #fff;
+   border: 1px solid #ddd;
+   border-radius: 5px;
+   margin: 10px;
+   padding: 15px;
+   text-align: center;
+   width: 250px;
 }
 
 .product-home img {
-    max-width: 100%;
-    height: 200px;
-    border-radius: 5px;
+   max-width: 100%;
+   height: 200px;
+   border-radius: 5px;
 }
 
 .product-home h3 {
-    color: #333;
-    font-size: 1.2em;
-    margin-bottom: 10px;
+   color: #333;
+   font-size: 1.2em;
+   margin-bottom: 10px;
 }
 
 .product-home h5 {
-    color: #333;
-    font-size: 1.2em;
-    margin-bottom: 10px;
+   color: #333;
+   font-size: 1.2em;
+   margin-bottom: 10px;
 }
 
 .product-home p {
-    color: #777;
-    font-size: 1em;
+   color: #777;
+   font-size: 1em;
 }
 
 .add-to-cart-button {
-    background-color: #4CAF50;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
+   background-color: #4caf50;
+   color: #fff;
+   padding: 10px;
+   border: none;
+   border-radius: 3px;
+   cursor: pointer;
+   font-size: 1em;
+   transition: background-color 0.3s ease;
 }
 
 .add-to-cart-button:hover {
-    background-color: #45a049;
+   background-color: #45a049;
 }

@@ -1,154 +1,158 @@
 /* General Styles */
 body {
-  background: #eee;
+   background: #eee;
 }
 
 h1 {
-  color: black;
+   color: black;
 }
 h3 {
-  color: black;
+   color: black;
 }
 
 .center {
-  margin: auto;
-  margin-top: 50px;
-  width: 100%;
-  padding: 10px;
+   margin: auto;
+   margin-top: 50px;
+   width: 100%;
+   padding: 10px;
 }
 
 /* Box Shadow and Background Styles */
 .shadow,
 .items {
-  box-shadow: 5px 5px 4px -1px rgba(0, 0, 0, 0.25);
-  background-color: white;
+   box-shadow: 5px 5px 4px -1px rgba(0, 0, 0, 0.25);
+   background-color: white;
 }
 
 /* Border Styles */
 .bod {
-  margin: auto;
-  padding: 10px;
+   margin: auto;
+   padding: 10px;
 }
 
 /* Payment Information Styles */
 .payment-info {
-  background: rgb(255, 255, 255);
-  padding: 10px;
-  border-radius: 6px;
-  color: #000000;
-  font-family: "Poppins", Helvetica, Arial, sans-serif;
-  font-weight: bold;
+   background: rgb(255, 255, 255);
+   padding: 10px;
+   border-radius: 6px;
+   color: #000000;
+   font-family: 'Poppins', Helvetica, Arial, sans-serif;
+   font-weight: bold;
 }
 
 /* Product Details Styles */
 .product-details {
-  padding: 10px;
-  background-color: #fefefe;
-  font-family: "Poppins", "Helvetica Neue", Helvetica, Arial;
-  border-radius: 10px;
+   padding: 10px;
+   background-color: #fefefe;
+   font-family: 'Poppins', 'Helvetica Neue', Helvetica, Arial;
+   border-radius: 10px;
 }
 
 /* Cart Styles */
 .cart {
-  background: #fff;
+   background: #fff;
 }
 
 /* About Paragraph Styles */
 .p-about {
-  font-size: 14px;
+   font-size: 14px;
 }
 
 /* Table Shadow Styles */
 .table-shadow {
-  box-shadow: 5px 5px 15px -2px rgba(0, 0, 0, 0.42);
+   box-shadow: 5px 5px 15px -2px rgba(0, 0, 0, 0.42);
 }
 
 /* Type Styles */
 .type {
-  font-weight: 400;
-  font-size: 14px;
+   font-weight: 400;
+   font-size: 14px;
 }
 
 /* Radio Button Styles */
 label.radio {
-  cursor: pointer;
+   cursor: pointer;
 }
 
 label.radio input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  visibility: hidden;
-  pointer-events: none;
+   position: absolute;
+   top: 0;
+   left: 0;
+   visibility: hidden;
+   pointer-events: none;
 }
 
 label.radio span {
-  padding: 1px 12px;
-  border: 2px solid #ada9a9;
-  display: inline-block;
-  color: #8f37aa;
-  border-radius: 5px;
-  text-transform: uppercase;
-  font-size: 11px;
-  font-weight: 300;
+   padding: 1px 12px;
+   border: 2px solid #ada9a9;
+   display: inline-block;
+   color: #8f37aa;
+   border-radius: 5px;
+   text-transform: uppercase;
+   font-size: 11px;
+   font-weight: 300;
 }
 
 label.radio input:checked + span {
-  border-color: rgb(0, 0, 0);
-  background-color: rgb(252, 252, 252);
-  color: #fff;
+   border-color: rgb(0, 0, 0);
+   background-color: rgb(252, 252, 252);
+   color: #fff;
 }
 
 /* Line Styles */
 .line {
-  border-bottom: 1px solid rgb(102, 102, 221);
+   border-bottom: 1px solid rgb(102, 102, 221);
 }
 
 /* Information Styles */
 .information {
-  margin-bottom: 5px;
+   margin-bottom: 5px;
 }
 
 .information span {
-  font-size: 12px;
-  font-weight: 500;
+   font-size: 12px;
+   font-weight: 500;
 }
 
 /* Specification Styles */
 .spec {
-  font-size: 11px;
+   font-size: 11px;
 }
 
 /* Add these styles to Cart.css */
 
 .type {
-  display: block;
-  margin-top: 15px;
+   display: block;
+   margin-top: 15px;
 }
 
 .radio {
-  display: inline-block;
-  margin-right: 15px;
+   display: inline-block;
+   margin-right: 15px;
 }
 
 .credit-card-label {
-  margin-top: 15px;
+   margin-top: 15px;
 }
 
 .credit-inputs {
-  width: 100%;
+   width: 100%;
 }
 
 .line {
-  margin-top: 20px;
+   margin-top: 20px;
 }
 
 .information {
-  margin-top: 10px;
+   margin-top: 10px;
+}
+
+.btn {
+   margin-bottom: 10px;
 }
 
 .btn-block {
-  width: 100%;
-  margin-top: 15px;
-  margin-bottom: 15px;
+   width: 100%;
+   margin-top: 15px;
+   margin-bottom: 15px;
 }
