@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Orders.css'; 
 import NavBar from '../NavBar/NavBar'
+import { Footer } from '../Home/Home';
 
 const Orders = () => {
     const [userType, setUserType] = useState('');
@@ -48,6 +49,7 @@ const Orders = () => {
                     </tbody> 
                 </table>
             </div>
+            <Footer />
         </div>
     );
 }
