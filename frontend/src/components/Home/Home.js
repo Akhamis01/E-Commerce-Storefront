@@ -105,10 +105,10 @@ const Main = () => {
                     <option value='Sweater'>Sweater</option>
                     <option value='Socks'>Socks</option>
                 </select>
-                <button type="button" onClick={handleFilter} className={`btn btn-outline-info`}>Apply Filter</button>
+                <button type="button" onClick={handleFilter} className={`btn btn-outline-info`}>Apply filter</button>
                 <br></br>
                 <input onChange={ (event) => setSearch(event.target.value) }/>
-                <button type="button" onClick={handleSearch} className={`btn btn-outline-info`}>Search Product</button>
+                <button type="button" onClick={handleSearch} className={`btn btn-outline-info`}>Search product</button>
             </header>
 
             <section className='home-section'>
@@ -137,7 +137,7 @@ const Main = () => {
             <footer className="footer">
                 <div className="footer-content">
                     <p>&copy; 2023 E-StoreFront. All rights reserved.</p>
-                    <p><Link to="/contact">CONTACT US</Link></p>
+                    <p><Link to="/contact">Contact us</Link></p>
                 </div>
             </footer>
         </div>
