@@ -1,6 +1,7 @@
 // Verification.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Verification.css';
 
 const Verification = () => {
     const [verificationCode, setVerificationCode] = useState('');
@@ -30,8 +31,8 @@ const Verification = () => {
 
     return (
         <div className="verification-body order-main-bg">
-            <h1 style={{color: "white"}}>Verification</h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="container">
+                <h1>Verification</h1>
                 <div className="form-group">
                     <label htmlFor="verificationCode">Enter Verification Code:</label>
                     <input
