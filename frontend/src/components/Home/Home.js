@@ -95,54 +95,44 @@ const Main = () => {
     return (
         <div className="order-main-bg">
             <NavBar userType={userType}/>
-            <div className="main-body">
-                <div className="main-header">
-                    <h1>Products</h1>
-                    <h5>Select a category:</h5>
-                    <select onChange={(e) => setCategory(e.target.value)}>
-                        <option value='All'>All</option>
-                        <option value='Tshirt'>Tshirt</option>
-                        <option value='Pants'>Pants</option>
-                        <option value='Jacket'>Jacket</option>
-                        <option value='Sweater'>Sweater</option>
-                        <option value='Socks'>Socks</option>
-                    </select>
-                    <button type="button" onClick={handleFilter} className={`btn btn-outline-info`}>Apply Filter</button>
-                    <br></br>
-                    <input onChange={ (event) => setSearch(event.target.value) }/>
-                    <button type="button" onClick={handleSearch} className={`btn btn-outline-info`}>Search Product</button>
-                </div>
+            <header className='home-header'>
+                <h1 style={{color: "white"}}>All Products</h1>
+                <select onChange={(e) => setCategory(e.target.value)}>
+                    <option value='All'>All</option>
+                    <option value='Tshirt'>Tshirt</option>
+                    <option value='Pants'>Pants</option>
+                    <option value='Jacket'>Jacket</option>
+                    <option value='Sweater'>Sweater</option>
+                    <option value='Socks'>Socks</option>
+                </select>
+                <button type="button" onClick={handleFilter} className={`btn btn-outline-info`}>Apply Filter</button>
+                <br></br>
+                <input onChange={ (event) => setSearch(event.target.value) }/>
+                <button type="button" onClick={handleSearch} className={`btn btn-outline-info`}>Search Product</button>
+            </header>
 
-                <div className="products">
-                    <div className="products-container">
-                        {products.map((product, id) => (
-                            <div id="card-recipe" className="card shadow p-3 mb-5 bg-white rounded cards" key={product.id} style={{width: "20rem"}}>
-                                {
-                                    (userType === 'admin') ? (
-                                        <button value={product.id} onClick={handleDelete} id="x">X</button>
-                                    ) : null
-                                }
-                                <img className="card-img-top" src={product.picture} alt={product.productName} style={{height: "15rem"}} />
-                                <div className="card-body">
-                                    <hr/>
-                                    <h5 className="card-title">{product.productName}</h5>
-                                    <h4 className="prod-category">{product.category}</h4>
-                                    <h4 className="price">$ {(product.price).toFixed(2)} CAD</h4>
-                                    <h4 className="price">Amt. Available: {product.quantity}</h4>
-                                    {
-                                        (userType !== 'admin') ? (
-                                            (cart.includes(product.id.toString())) ? (
-                                                <button type="button" id={product.id} onClick={handleCart} className={`btn btn-outline-info btn-recipe inner-button selected`}>Remove from Cart</button>
-                                            ) : <button type="button" id={product.id} onClick={handleCart} className={`btn btn-outline-info btn-recipe inner-button`}>Add to Cart</button>
-                                        ) : null
-                                    }
-                                </div>
-                            </div>
-                        ))}
+            <section className='home-section'>
 
+                {products.map((product, id) => (
+
+                    <div class="product-home">
+                        <img src={product.picture} alt={product.productName} />
+                        <h3>{product.productName}</h3>
+                        <h5>{product.category}</h5>
+                        <p>$ {(product.price).toFixed(2)} CAD</p>
+                        <p>Amt. Available: {product.quantity}</p>
+                        {
+                            (userType !== 'admin') ? (
+                                (cart.includes(product.id.toString())) ? (
+                                    <button type="button" id={product.id} onClick={handleCart} className={`add-to-cart-button selected`}>Remove from Cart</button>
+                                ) : <button type="button" id={product.id} onClick={handleCart} className={`add-to-cart-button`}>Add to Cart</button>
+                            ) : <button type="button" value={product.id} onClick={handleDelete} className={`add-to-cart-button selected`}>Delete Product</button>
+                        }
                     </div>
-                </div>
-            </div>
+                ))}
+
+            </section>
+
 
             <footer className="footer">
                 <div className="footer-content">

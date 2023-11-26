@@ -29,8 +29,8 @@ const Verification = () => {
     };
 
     return (
-        <div className="verification-body">
-            <h1>Verification</h1>
+        <div className="verification-body order-main-bg">
+            <h1 style={{color: "white"}}>Verification</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="verificationCode">Enter Verification Code:</label>
