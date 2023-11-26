@@ -59,7 +59,7 @@ def send_password_reset_email(username, reset_token, email):
                     <p>Hello {username},</p>
                     <p>We received a request to reset your password. Please use the following link to reset your password:</p>
                     <a href="http://localhost:3000/reset-password?token={reset_token}" style="display: inline-block; padding: 10px 20px; background-color: #3498db; color: #ffffff; text-decoration: none; border-radius: 5px;">Reset Password</a>
-                    <p>If you did not request this, please ignore this email. Your reset token is: {reset_token}</p>
+                    <p>If you did not request this, please ignore this email.</p>
                     </div>
 
                     <p style="color: #7f8c8d;">This is an automated email. Please do not reply.</p>
@@ -91,7 +91,6 @@ def verify_reset_token(reset_token):
 
 @app.route("/forgot-password", methods=['POST'])
 def forgot_password():
-    print("HERE")
     data = request.json
     email = data.get('email')
 
@@ -99,12 +98,8 @@ def forgot_password():
     user = user_query.get()
 
     if user_query.stream():
-        print("one")
-     
         user_data = user[0].to_dict()
         userId = user[0].id
-        print(user_data)
-        print(userId)
         reset_token = generate_reset_token(userId)
         save_reset_token(userId, reset_token)
 
@@ -113,7 +108,6 @@ def forgot_password():
 
         return jsonify(alert="success")
     else:
-        print("two")
         return jsonify(alert="error", message="User not found")
 
 @app.route("/reset-password", methods=['POST'])
@@ -309,7 +303,7 @@ def getOrders():
             
             content = {
                 'productId': productId,
-                'order_id': order.id,
+                'orderId': order.id,
                 'userId': order.get('userId'),
                 'quantity': order.get('quantity'),
                 'date': order.get('datePurchased'),
@@ -738,6 +732,15 @@ def contact():
         print(jsonify(alert="error"))
         return jsonify(alert="error")
 
+@app.route('/getFeedback', methods=['GET'])
+def getFeedback():
+    feedbackRef = db.collection('Feedback')
+
+    payload = []
+    for feedback in feedbackRef.stream():
+        payload.append(feedback.to_dict())
+
+    return jsonify(payload)
 
 ##############################################################################
 #             Common Functions                                               #
