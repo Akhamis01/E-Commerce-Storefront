@@ -23,11 +23,6 @@ const NavBar = ({userType}) => {
                         </svg>
                     </a>
                 </div>
-                <div>
-                    <a className="navbar-brand" href="/cart">
-                        <img src="https://static.vecteezy.com/system/resources/previews/016/016/817/non_2x/ecommerce-logo-free-png.png" height="50" alt="" loading="lazy"/>
-                    </a>
-                </div>
                 <button className="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i className="fas fa-bars"></i>
                 </button>
@@ -36,7 +31,7 @@ const NavBar = ({userType}) => {
                         {
                             (userType === 'admin') ? (
                                     <li className="nav-item">
-                                        {/* <a className="nav-link button-primary" href="/addproduct">Add Products</a> */}
+                                        {<a className="nav-link button-primary" href="/addproduct">Add Products</a>}
                                     </li>
                             ) : null
                         }
@@ -54,7 +49,9 @@ const NavBar = ({userType}) => {
                         {<a href="/orders" type="button" className="btn btn-secondary me-3">Orders</a>}
                         {
                             (userType !== 'admin') ? (
-                                <a href="/cart" type="button" className="btn btn-secondary me-3">Cart</a>
+                                 <a className="navbar-brand" href="/cart">
+                                    <img src="https://static.vecteezy.com/system/resources/previews/016/016/817/non_2x/ecommerce-logo-free-png.png" height="50" alt="" loading="lazy"/>
+                                 </a>
                             ) : null
                         } 
                         <a href="/login" onClick={handleLogout} type="button" className="btn btn-primary me-3">Logout</a>
