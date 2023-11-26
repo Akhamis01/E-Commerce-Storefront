@@ -5,13 +5,18 @@
     height: 100vh;
 }
 
+
+
 .verification-form {
-    display: none;
-    text-align: center;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    padding: 20px;
-    box-shadow: 0px 0px 10px #aaa;
+    font-family: 'Poppins';
+    margin: auto;
+    text-align: center; 
+    margin-top: 150px;
+    width: 70%;
+    border: 5px solid #ffffff;
+    background-color:rgba(18, 79, 192, 0.25);
+    padding: auto;
+    border-radius: 20px;
 }
 
 h1 {
@@ -27,6 +32,7 @@ p {
 }
 
 button {
+    font-family: 'Poppins';
     background-color: #007BFF;
     color: #fff;
     font-size: 16px;
@@ -35,6 +41,14 @@ button {
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s;
+}
+
+#logins-btn{
+    margin-bottom: 10px;
+}
+
+#verification-top{
+    margin-top: 10px;
 }
 
 button:hover {
