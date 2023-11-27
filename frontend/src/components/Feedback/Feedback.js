@@ -31,8 +31,8 @@ export default function Feedback() {
             <NavBar userType={userType}/>
             <div className="main-body d-flex justify-content-center align-items-center h-100">
                 {/* <div className="main-header"> */}
-                <div className="container">
-                    <h1>Feedback</h1>
+                <div className="order-bg"  style={{width: 1000,}} >
+                    <h1 id="margins-top" style={{ color: 'white' }}>Feedback</h1>
                     <div className="d-flex flex-row">
                         <div class="list-group mr-3">
                             {
@@ -42,10 +42,10 @@ export default function Feedback() {
                                 ))
                             }
                         </div>
-                        <div class='ml-3'>
-                            <p>Name: {activeFeedback.name}</p>
-                            <p>Email: {activeFeedback.email}</p>
-                            <p>Message: {activeFeedback.message}</p>
+                        <div id="margins-bot" class='ml-3'>
+                            <p style={{ color: 'white' }}>Name: {activeFeedback.name}</p>
+                            <p style={{ color: 'white' }}>Email: {activeFeedback.email}</p>
+                            <p style={{ color: 'white' }}>Message: {activeFeedback.message}</p>
                         </div>
                     </div>
                 </div>

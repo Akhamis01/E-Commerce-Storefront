@@ -7,6 +7,30 @@ body {
 }
 
 
+.order-bg {
+    margin: auto;
+    margin-top: 100px;
+    width: 70%;
+    border: 5px solid #ffffff;
+    background-color:rgba(18, 79, 192, 0.25);
+    padding: auto;
+    border-radius: 20px;
+}
+
+#margins-bot{
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: white;
+}
+
+#margins-top{
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: white;
+}
+
 .btn-recipe{
     opacity: 0;
     display: block;
