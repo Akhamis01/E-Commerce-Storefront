@@ -1,68 +1,58 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import NavBar from '../NavBar/NavBar';
+import NavBar from '../NavBar/NavBar'
 
 import './AddProduct.css';
 
 const AddProduct = () => {
-   const [productName, setProductName] = useState('');
-   const [productDescription, setProductDescription] = useState('');
-   const [products, setProducts] = useState([]);
-   const [menu, setMenu] = useState('Use existing product');
-   const [element, setElement] = useState(false);
-   const [disp, setDisp] = useState('block');
-   const [disp2, setDisp2] = useState('none');
-   const [category, setCategory] = useState('Tshirt');
-   const [productID, setProductID] = useState('');
-   const [price, setPrice] = useState(0);
-   const [picture, setPicture] = useState('');
-   const [userType, setUserType] = useState('');
-   const navigate = useNavigate();
+    const [productName, setProductName] = useState('');
+    const [productDescription, setProductDescription] = useState('');
+    const [products, setProducts] = useState([]);
+    const [menu, setMenu] = useState('Use existing product');
+    const [element, setElement] = useState(false);
+    const [disp, setDisp] = useState('block');
+    const [disp2, setDisp2] = useState('none');
+    const [category, setCategory] = useState('Tshirt');
+    const [productID, setProductID] = useState('');
+    const [price, setPrice] = useState(0);
+    const [picture, setPicture] = useState('');
+    const [userType, setUserType] = useState('');
+    const navigate = useNavigate();
 
-   useEffect(() => {
-      fetch('/getexistingproducts')
-         .then((res) => res.json())
-         .then((data) => {
+
+    useEffect(() => {
+        fetch("/getexistingproducts").then(res => res.json()).then(data => {
             setProducts(data);
-         });
+        });
 
-      fetch('/getusertype')
-         .then((res) => res.json())
-         .then((data) => {
+        fetch("/getusertype").then(res => res.json()).then(data => {
             setUserType(data['type']);
-         });
-   }, []);
+        });
+    }, [])
 
-   const handleSubmit = (e) => {
-      e.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-      if (disp2 === 'none') {
-         fetch('/addproduct', {
-            method: 'POST',
-            cache: 'no-cache',
-            headers: {
-               'Content-type': 'application/json',
-            },
-            body: JSON.stringify({
-               productName: productName,
-               productDescription: productDescription,
-               category: category,
-               price: price,
-               picture: picture,
-            }),
-         })
-            .then((res) => res.json())
-            .then((res) => {
-               if (res['alert'] === 'success') {
-                  navigate('/home');
-               }
-            });
-      } else {
-         fetch('/addexistingproduct', {
-            method: 'POST',
-            cache: 'no-cache',
-            headers: {
-               'Content-type': 'application/json',
+        if(disp2 === 'none'){
+            fetch("/addproduct", {
+                method:"POST",
+                cache: "no-cache",
+                headers:{
+                    "Content-type":"application/json",
+                },
+                body:JSON.stringify({productName: productName, productDescription: productDescription, category:category, price:price, picture:picture})
+            }).then(res => res.json()).then(res => {
+                if(res['alert'] === 'success'){
+                    navigate("/home");
+                }
+            })
+
+        } else{
+            fetch("/addexistingproduct", {
+            method:"POST",
+            cache: "no-cache",
+            headers:{
+                "Content-type":"application/json",
             },
             body: JSON.stringify({ productID: productID }),
          })
@@ -249,10 +239,10 @@ const AddProduct = () => {
                      Go back!
                   </a>
                </form>
+
             </div>
-         </div>
-      </section>
-   );
+        </section>
+    );
 };
 
 export default AddProduct;
