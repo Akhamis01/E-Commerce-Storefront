@@ -6,12 +6,9 @@ import './Home.css';
 
 const Footer = () => {
    return (
-      <footer className="footer">
+      <footer className="footer footer-hidden">
          <div className="footer-content">
-            <p>&copy; 2023 E-StoreFront. All rights reserved.</p>
-            <p>
-               <Link to="/contact">Contact us</Link>
-            </p>
+            <p>&copy; 2023 E-StoreFront. All rights reserved.   <Link to="/contact">Contact us</Link></p>
          </div>
       </footer>
    );
@@ -23,6 +20,27 @@ const Main = () => {
    const [category, setCategory] = useState('All');
    const [userType, setUserType] = useState('');
    const [search, setSearch] = useState('');
+
+   const handleScroll = () => {
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY;
+      const threshold = 100;
+  
+      if (scrollTop + windowHeight >= documentHeight - threshold) {
+        document.querySelector('.footer').classList.remove('footer-hidden');
+      } else {
+        document.querySelector('.footer').classList.add('footer-hidden');
+      }
+    };
+  
+    useEffect(() => {
+      window.addEventListener('scroll', handleScroll);
+  
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }, []);
 
    useEffect(() => {
       fetch('/getallproducts')
@@ -120,14 +138,14 @@ const Main = () => {
       <div className="order-main-bg">
          <NavBar userType={userType} />
          <header className="home-header">
-            <h1 style={{ color: 'white' }}>All Products</h1>
+            <h1 style={{ color: 'white' }}>Welcome to the StoreFront!</h1>
             <select onChange={(e) => setCategory(e.target.value)}>
                <option value="All">All</option>
-               <option value="Tshirt">Tshirt</option>
-               <option value="Pants">Pants</option>
-               <option value="Jacket">Jacket</option>
-               <option value="Sweater">Sweater</option>
-               <option value="Socks">Socks</option>
+               <option value="Electronics">Electronics</option>
+               <option value="Games">Games</option>
+               <option value="Appliances">Appliances</option>
+               <option value="Comics">Comics</option>
+               <option value="Hats">Hats</option>
             </select>
             <button
                type="button"
@@ -136,7 +154,6 @@ const Main = () => {
             >
                Apply filter
             </button>
-            <br></br>
             <input onChange={(event) => setSearch(event.target.value)} />
             <button
                type="button"
@@ -152,9 +169,11 @@ const Main = () => {
                <div class="product-home">
                   <img src={product.picture} alt={product.productName} />
                   <h3>{product.productName}</h3>
-                  <h5>{product.category}</h5>
+                  <h6 style={{ color: 'grey', fontStyle: 'italic', fontSize: '1em', marginTop: '5px' }}>{product.category}</h6>
                   <p>$ {product.price.toFixed(2)} CAD</p>
-                  <p>Amt. Available: {product.quantity}</p>
+                  {userType === 'admin' && (
+                     <p>Amt. Available: {product.quantity}</p>
+                  )}
                   {userType !== 'admin' ? (
                      cart.includes(product.id.toString()) ? (
                         <button

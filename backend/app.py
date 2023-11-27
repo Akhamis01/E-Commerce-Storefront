@@ -327,7 +327,7 @@ def getDiscount():
 
 @app.route("/getorders")
 def getOrders():
-    all_categories = {0: "Tshirt", 1: "Pants", 2: "Jacket", 3: "Sweater", 4: "Socks"}
+    all_categories = {0: "Electronics", 1: "Games", 2: "Appliances", 3: "Comics", 4: "Hats"}
     userId = session["id"]
 
     if session["isAdmin"] == True:
@@ -462,6 +462,7 @@ def addToCart():
         cartID = hashlib.sha1(currentDate.encode("utf-8")).hexdigest()
 
         if session["isAdmin"] != True:
+            print(productID)
             cartsRef.document(cartID).set(
                 {"productId": productID, "userId": userID, "date": currentDate}
             )
@@ -503,11 +504,11 @@ def getAllCart():
         cart_query = cartsRef.where("userId", "==", userId).stream()
         payload = []
         all_categories = {
-            0: "Tshirt",
-            1: "Pants",
-            2: "Jacket",
-            3: "Sweater",
-            4: "Socks",
+            0: "Electronics",
+            1: "Games",
+            2: "Appliances",
+            3: "Comics",
+            4: "Hats",
         }
 
         for cart_item in cart_query:

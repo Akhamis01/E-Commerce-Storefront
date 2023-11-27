@@ -183,20 +183,20 @@ const AddProduct = () => {
                            name="pick-user"
                            onChange={(event) => setCategory(event.target.value)}
                         >
-                           <option key={0} value="Tshirt">
-                              Tshirt
+                           <option key={0} value="Electronics">
+                           Electronics
                            </option>
-                           <option key={1} value="Pants">
-                              Pants
+                           <option key={1} value="Games">
+                           Games
                            </option>
-                           <option key={2} value="Jacket">
-                              Jacket
+                           <option key={2} value="Appliances">
+                           Appliances
                            </option>
-                           <option key={3} value="Sweater">
-                              Sweater
+                           <option key={3} value="Comics">
+                           Comics
                            </option>
-                           <option key={4} value="Socks">
-                              Socks
+                           <option key={4} value="Hats">
+                           Hats
                            </option>
                         </select>
                      </div>

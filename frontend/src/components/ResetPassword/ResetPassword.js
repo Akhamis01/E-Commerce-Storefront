@@ -116,13 +116,10 @@ const ResetPassword = () => {
                            {resetResult.message}
                         </div>
                      )}
-
-                     {resetResult.alert === 'success' ? (
+                     
+                     {resetResult && resetResult.alert && resetResult.alert === 'success' ? (
                         <div>
-                           <a
-                              className="btn btn-primary btn-rounded"
-                              href="/login"
-                           >
+                           <a className="btn btn-primary btn-rounded" href="/login">
                               Login Page
                            </a>
                         </div>
