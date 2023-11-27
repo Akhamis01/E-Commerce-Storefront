@@ -241,6 +241,7 @@ const AddProduct = () => {
                </form>
 
             </div>
+            </div>
         </section>
     );
 };
