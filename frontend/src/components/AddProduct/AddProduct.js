@@ -54,100 +54,192 @@ const AddProduct = () => {
             headers:{
                 "Content-type":"application/json",
             },
-            body:JSON.stringify({'productID': productID})
-            }).then(res => res.json()).then(res => {
-                if(res['alert'] === 'success'){
-                    navigate("/home");
-                }
-            })
-        }
-    };
+            body: JSON.stringify({ productID: productID }),
+         })
+            .then((res) => res.json())
+            .then((res) => {
+               if (res['alert'] === 'success') {
+                  navigate('/home');
+               }
+            });
+      }
+   };
 
+   const handleMenu = (e) => {
+      e.preventDefault();
+      if (element === false) {
+         setElement(true);
+         setMenu('Add new product');
+         setDisp('none');
+         setDisp2('block');
+      } else {
+         setElement(false);
+         setMenu('Use existing product');
+         setDisp('block');
+         setDisp2('none');
+      }
+   };
 
-    const handleMenu = (e) => {
-        e.preventDefault();
-        if(element === false){
-            setElement(true);
-            setMenu('Add new product');
-            setDisp('none');
-            setDisp2('block');
-        } else{
-            setElement(false);
-            setMenu('Use existing product');
-            setDisp('block');
-            setDisp2('none');
-        }
-    }
+   return (
+      <section>
+         <NavBar userType={userType} />
+         <div className="register-bodyy">
+            <div className="login-form">
+               <form
+                  onSubmit={handleSubmit}
+                  className="container"
+                  action="/home"
+                  method="get"
+               >
+                  <h1>Add a Product to Inventory</h1>
+                  <button
+                     id="register"
+                     onClick={handleMenu}
+                     className="btn btn-primary btn-rounded"
+                  >
+                     {menu}
+                  </button>
+                  <hr />
 
-    return (
-        <section>
-            <NavBar userType={userType}/>
-            <div className="register-bodyy">
-                <div className="login-form">
-                    <form onSubmit={handleSubmit} className="container" action="/home" method="get">
-                        <h1>Add a Product to Inventory</h1>
-                        <button id="register" onClick={handleMenu} className="btn btn-primary btn-rounded">{menu}</button>
-                        <hr/>
+                  <div style={{ display: `${disp}` }}>
+                     <div className="form-group">
+                        <label htmlFor="username">
+                           <b>Product Name</b>
+                        </label>
+                        <input
+                           id="username-check"
+                           type="text"
+                           placeholder="Product Name"
+                           name="username"
+                           className="form-control"
+                           onChange={(event) =>
+                              setProductName(event.target.value)
+                           }
+                        />
+                     </div>
 
-                        <div style={{display: `${disp}`}}>
-                            <div className="form-group">
-                                <label htmlFor="username"><b>Product Name</b></label>
-                                <input id="username-check" type="text" placeholder="Product Name" name="username" className="form-control" onChange={ (event) => setProductName(event.target.value) }/>
-                            </div>
+                     <div className="form-group">
+                        <label htmlFor="password">
+                           <b>Product Description</b>
+                        </label>
+                        <input
+                           id="pass"
+                           type="text"
+                           placeholder="Product Description"
+                           name="password"
+                           className="form-control"
+                           onChange={(event) =>
+                              setProductDescription(event.target.value)
+                           }
+                        />
+                     </div>
 
-                            <div className="form-group">
-                                <label htmlFor="password"><b>Product Description</b></label>
-                                <input id="pass" type="text" placeholder="Product Description" name="password" className="form-control" onChange={ (event) => setProductDescription(event.target.value) }/>
-                            </div>
+                     <div className="form-group">
+                        <label htmlFor="password">
+                           <b>Price</b>
+                        </label>
+                        <input
+                           id="pass-confirm"
+                           type="number"
+                           step="0.01"
+                           placeholder="Price"
+                           name="confirmation"
+                           className="form-control"
+                           onChange={(event) => setPrice(event.target.value)}
+                        />
+                     </div>
 
-                            <div className="form-group">
-                                <label htmlFor="password"><b>Price</b></label>
-                                <input id="pass-confirm" type="number" step="0.01" placeholder="Price" name="confirmation" className="form-control" onChange={ (event) => setPrice(event.target.value) }/>
-                            </div>
+                     <div className="form-group">
+                        <label htmlFor="password">
+                           <b>Picture URL</b>
+                        </label>
+                        <input
+                           id="pass-confirm"
+                           type="text"
+                           placeholder="Picture URL"
+                           name="confirmation"
+                           className="form-control"
+                           onChange={(event) => setPicture(event.target.value)}
+                        />
+                     </div>
 
-                            <div className="form-group">
-                                <label htmlFor="password"><b>Picture URL</b></label>
-                                <input id="pass-confirm" type="text" placeholder="Picture URL" name="confirmation" className="form-control" onChange={ (event) => setPicture(event.target.value) }/>
-                            </div>
+                     <div id="selection-user" className="form-group">
+                        <label htmlFor="pick-user">
+                           <b>Category</b>
+                        </label>
+                        <select
+                           id="pick-user"
+                           className="form-control"
+                           name="pick-user"
+                           onChange={(event) => setCategory(event.target.value)}
+                        >
+                           <option key={0} value="Electronics">
+                           Electronics
+                           </option>
+                           <option key={1} value="Games">
+                           Games
+                           </option>
+                           <option key={2} value="Appliances">
+                           Appliances
+                           </option>
+                           <option key={3} value="Comics">
+                           Comics
+                           </option>
+                           <option key={4} value="Hats">
+                           Hats
+                           </option>
+                        </select>
+                     </div>
+                  </div>
 
-                            <div id="selection-user" className="form-group">
-                                <label htmlFor="pick-user"><b>Category</b></label>
-                                <select id="pick-user" className="form-control" name="pick-user" onChange={ (event) => setCategory(event.target.value) }>
-                                    <option key={0} value="Tshirt">Tshirt</option>
-                                    <option key={1} value="Pants">Pants</option>
-                                    <option key={2} value="Jacket">Jacket</option>
-                                    <option key={3} value="Sweater">Sweater</option>
-                                    <option key={4} value="Socks">Socks</option>
-                                </select>
-                            </div>
-                        </div>
+                  <div style={{ display: `${disp2}` }}>
+                     <div id="selection-user" className="form-group">
+                        <label htmlFor="pick-product">
+                           <b>Choose an existing product</b>
+                        </label>
+                        <select
+                           id="pick-user"
+                           className="form-control"
+                           name="pick-product"
+                           onChange={(event) =>
+                              setProductID(event.target.value)
+                           }
+                        >
+                           {products.map((product, id) => (
+                              <option key={product.id} value={product.id}>
+                                 {product.productName}
+                              </option>
+                           ))}
+                        </select>
+                     </div>
+                  </div>
 
+                  {(productName && productDescription && price && picture) ||
+                  disp2 === 'block' ? (
+                     <button
+                        id="register"
+                        className="btn btn-primary btn-rounded"
+                        type="submit"
+                     >
+                        Add Product
+                     </button>
+                  ) : (
+                     <button
+                        id="register"
+                        className="btn btn-primary btn-rounded"
+                        type="submit"
+                        disabled
+                     >
+                        Add Product
+                     </button>
+                  )}
 
-                        <div style={{display: `${disp2}`}}>
-                            <div id="selection-user" className="form-group">
-                                <label htmlFor="pick-product"><b>Choose an existing product</b></label>
-                                <select id="pick-user" className="form-control" name="pick-product" onChange={ (event) => setProductID(event.target.value) }>
+                  <hr />
+                  <a className="btn btn-primary btn-rounded" href="/home">
+                     Go back!
+                  </a>
+               </form>
 
-                                    {products.map((product, id) => (
-                                        <option key={product.id} value={product.id}>{product.productName}</option>
-                                    ))}
-
-                                </select>
-                            </div>
-                        </div>
-
-                        {
-                            ( (productName && productDescription && price && picture) || (disp2 === 'block')) ? (
-                                <button id="register" className="btn btn-primary btn-rounded" type="submit">Add Product</button>
-                            ) : (
-                                <button id="register" className="btn btn-primary btn-rounded" type="submit" disabled>Add Product</button>
-                            )
-                        }
-                        
-                        <hr/>
-                        <a className="btn btn-primary btn-rounded" href="/home">Go back!</a>
-                    </form>
-                </div>
             </div>
         </section>
     );

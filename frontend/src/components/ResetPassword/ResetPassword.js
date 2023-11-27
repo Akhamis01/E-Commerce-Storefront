@@ -85,49 +85,49 @@ const ResetPassword = () => {
                   placeholder="New Password"
                 />
               </div>
+                     {/* Confirm Password input */}
+                     <div className="form-outline mb-3">
+                        <p className="inputTitle">Confirm Password</p>
+                        <input
+                           type="password"
+                           id="confirmPassword"
+                           value={confirmPassword}
+                           onChange={(e) => setConfirmPassword(e.target.value)}
+                           required
+                           className="form-control form-control-lg passInput"
+                           placeholder="Confirm Password"
+                        />
+                     </div>
+                     {/* Submit button */}
+                     <div className="text-center text-lg-start mt-4 pt-2">
+                        <button
+                           type="submit"
+                           className="btn btn-primary btn-lg btn-reset-password button-reset"
+                        >
+                           Reset Password
+                        </button>
+                     </div>
+                     {/* Display success or error message */}
+                     {resetResult && (
+                        <div className={`reset-message ${resetResult.alert}`}>
+                           {resetResult.message}
+                        </div>
+                     )}
+                     
+                     {resetResult && resetResult.alert && resetResult.alert === 'success' ? (
+                        <div>
+                           <a className="btn btn-primary btn-rounded" href="/login">
+                              Login Page
+                           </a>
+                        </div>
+                     ) : null}
+                  </form>
+               </div>
+            </div>
+         </div>
+      </section>
+   );
 
-              {/* Confirm Password input */}
-              <div className="form-outline mb-3">
-                <p className="inputTitle">Confirm Password</p>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                  className="form-control form-control-lg passInput"
-                  placeholder="Confirm Password"
-                />
-              </div>
-              {/* Submit button */}
-              <div className="text-center text-lg-start mt-4 pt-2">
-                <button
-                  type="submit"
-                  className="btn btn-primary btn-lg btn-reset-password button-reset"
-                >
-                  Reset Password
-                </button>
-              </div>
-              {/* Display success or error message */}
-              {resetResult && (
-                <div className={`reset-message ${resetResult.alert}`}>
-                  {resetResult.message}
-                </div>
-              )}
-
-              {
-                (resetResult.alert === 'success') ? (
-                  <div>
-                    <a className="btn btn-primary btn-rounded" href="/login">Login Page</a>
-                  </div>
-                ) : null
-              }
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
 };
 
 export default ResetPassword;

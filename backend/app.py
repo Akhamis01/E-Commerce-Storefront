@@ -281,18 +281,13 @@ def getDiscount():
 
 @app.route("/getorders")
 def getOrders():
-    all_categories = {
-        0: 'Tshirt',
-        1: 'Pants',
-        2: 'Jacket',
-        3: 'Sweater',
-        4: 'Socks'
-    }
-    userId = session['id']
+    all_categories = {0: "Electronics", 1: "Games", 2: "Appliances", 3: "Comics", 4: "Hats"}
+    userId = session["id"]
 
-    if session['isAdmin'] == True:
-        ordersRef = db.collection('Orders')
-        productsRef = db.collection('Products')
+    if session["isAdmin"] == True:
+        ordersRef = db.collection("Orders")
+        productsRef = db.collection("Products")
+
 
         order_query = ordersRef.stream()
         payload = []
@@ -414,12 +409,12 @@ def addToCart():
 
         cartID = hashlib.sha1(currentDate.encode('utf-8')).hexdigest()
 
-        if session['isAdmin'] != True:         
-            cartsRef.document(cartID).set({
-                "productId": productID,
-                "userId": userID,
-                "date": currentDate
-            })
+        if session["isAdmin"] != True:
+            print(productID)
+            cartsRef.document(cartID).set(
+                {"productId": productID, "userId": userID, "date": currentDate}
+            )
+
             return jsonify(alert="success")
 
         return jsonify(alert="error")
@@ -456,11 +451,11 @@ def getAllCart():
         cart_query = cartsRef.where('userId', '==', userId).stream()
         payload = []
         all_categories = {
-            0: 'Tshirt',
-            1: 'Pants',
-            2: 'Jacket',
-            3: 'Sweater',
-            4: 'Socks'
+            0: "Electronics",
+            1: "Games",
+            2: "Appliances",
+            3: "Comics",
+            4: "Hats",
         }
 
         for cart_item in cart_query:
