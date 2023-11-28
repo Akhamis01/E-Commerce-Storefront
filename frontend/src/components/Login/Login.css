@@ -56,10 +56,10 @@
 
 .login-inputs-text{
     color: #3c009d;
-    font-family: 'Poppins';
     font-size: 38px;
     font-weight: 500;
     text-align: center;
+    font-family: 'Poppins';
 }
 
 .login-underline{
@@ -106,6 +106,7 @@
     margin-top: 10px;
     background-color: #3c009d;
     border: 1px solid rgb(1, 39, 143);
+    font-family: 'Poppins';
 }
 
 .btn:hover{
