@@ -17,37 +17,93 @@
   width: 763px;
   height: 425px;
 }
-.loginMainChild {
-  position: absolute;
-  top: 664px;
-  left: 770px;
-  border-radius: var(--br-5xs);
-  background-color: var(--color-mediumblue);
-  width: 182px;
-  height: 65px;
+
+.container{
+    position: absolute;
+    align-items: center;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 40%;
+    padding: 16px;
+    background: rgba(180, 180, 180, 0.9);
+    filter: brightness(110%);
+    border-radius: 6px;
 }
-.forgot {
-  margin: 0;
+
+.header{                        
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    margin-top: 30px;
 }
-.forgotPassword {
-  position: absolute;
-  top: 670px;
-  left: 801px;
-  font-size: 20px;
-  font-weight: 500;
-  display: inline-block;
-  width: 120px;
-  height: 48px;
-  background-color: transparent;
+
+.body{
+    align-items:left;
+    width: 100%;
+    margin-top: 20px;
 }
-.loginMainItem {
-  position: absolute;
-  top: 458px;
-  left: 418px;
-  border-radius: var(--br-5xs);
-  background-color: var(--color-whitesmoke);
-  width: 604px;
-  height: 55px;
+
+.text{
+    color: #3c009d;
+    font-family: 'Poppins';
+    font-size: 54px;
+    font-weight: 700;
+}
+
+.body-text{
+    color: #3c009d;
+    font-family: 'Poppins';
+    font-size: 38px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.underline{
+    width: 60px;
+    height: 6px;
+    background:#3c009d;
+    border-radius: 9px;
+}
+
+.login-form{
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.input{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    width: 80%;
+    height: 100%;
+    background: #eaeaea;
+    border-radius: 5px;
+}
+
+.input input[type=text],input[type=password]{
+    height: 100%;
+    width: 100%;
+    background: whitesmoke;
+    border: none;
+    outline: none;
+    color: #797979;
+    font-size: 20px;
+}
+
+.submit-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn{
+    margin-top: 10px;
+    background-color: #3c009d;
+    border: 1px solid rgb(1, 39, 143);
 }
 .email {
   position: absolute;
