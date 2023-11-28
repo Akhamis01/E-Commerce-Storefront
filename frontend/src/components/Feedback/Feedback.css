@@ -1,0 +1,163 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+
+.order-bg {
+    margin: auto;
+    margin-top: 100px;
+    width: 70%;
+    border: 5px solid #ffffff;
+    background-color:rgba(18, 79, 192, 0.25);
+    padding: auto;
+    border-radius: 20px;
+}
+
+#margins-bot{
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: white;
+}
+
+#margins-top{
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: white;
+}
+
+.btn-recipe{
+    opacity: 0;
+    display: block;
+}
+
+#card-recipe{
+    transition: transform .2s;
+    max-width: 20%;
+    margin-left: 35px;
+}
+
+.selected{
+    background-color: red !important;
+}
+
+#card-recipe:hover{
+    transform: scale(1.15);
+}
+
+#card-recipe:hover .btn-recipe{
+    opacity: 1;
+    transition: 0.6s ease;
+}
+
+.card-body{
+    min-height: 225px;
+}
+
+.card{
+    box-shadow: 0px 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-height: 100%;
+    margin-left: 20px;
+    text-align: center;
+    padding: auto;
+}
+
+
+.card-body{
+    max-height: 100px;
+}
+
+.card-group {
+    margin: 0 auto;
+    text-align: center;
+    font-family: arial;
+    padding: 100px;
+    padding-top: 50px;
+}
+  
+.price {
+    color: grey;
+    font-size: 22px;
+}
+  
+.card .inner-button {
+    border: none;
+    outline: 0;
+    padding: 12px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+}
+
+.main-header{
+    margin-left: 45%;
+    margin-bottom: 10px;
+}
+
+/* .card button:hover {
+    opacity: 0.7;
+} */
+
+
+.product-pic{
+    width: 100px;
+}
+
+.prod-category{
+    color: lightcoral;
+}
+
+#x {
+    position: absolute;
+    background: red;
+    color: white;
+    top: -10px;
+    right: -10px;
+}
+
+.footer {
+    background-color: #cecece;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+  }
+    
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+.footer p {
+    color: black;
+    margin: 3px 0;
+}
+
+.products-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .cards {
+    width: calc(25% - 20px);
+    margin-bottom: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .cards {
+      width: calc(50% - 20px);
+    }
+  }
+  

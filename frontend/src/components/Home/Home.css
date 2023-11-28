@@ -1,16 +1,254 @@
-/* Styles for Home.js */
-
-/* Center the content vertically and horizontally */
-div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f0f0f0; /* Light gray background color */
+body {
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Style the heading */
-h1 {
-  font-size: 2rem;
-  color: #333; /* Dark gray text color */
+* {
+    box-sizing: border-box;
+}
+
+.main-body{
+    /* background-image: url("https://images.pexels.com/photos/2387818/pexels-photo-2387818.jpeg?cs=srgb&dl=pexels-adrien-olichon-2387818.jpg&fm=jpg://wallpaperset.com/w/full/c/4/8/45474.jpg"); */
+    /* background: #282828;
+    background: linear-gradient(135deg, #282828, #070707); */
+    background: #474747;
+    background: linear-gradient(135deg, #474747, #161616);
+}
+
+.btn-recipe{
+    opacity: 0;
+    display: block;
+}
+
+#card-recipe{
+    transition: transform .2s;
+    max-width: 20%;
+    margin-left: 35px;
+}
+
+.selected{
+    background-color: red !important;
+}
+
+.selected:hover{
+    background-color: rgb(252, 65, 65) !important;
+}
+
+#card-recipe:hover{
+    transform: scale(1.15);
+}
+
+#card-recipe:hover .btn-recipe{
+    opacity: 1;
+    transition: 0.6s ease;
+}
+
+.card-body{
+    min-height: 225px;
+}
+
+.card{
+    box-shadow: 0px 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-height: 100%;
+    margin-left: 20px;
+    text-align: center;
+    padding: auto;
+}
+
+
+.card-body{
+    max-height: 100px;
+}
+
+.card-group {
+    margin: 0 auto;
+    text-align: center;
+    font-family: arial;
+    padding: 100px;
+    padding-top: 50px;
+}
+  
+.price {
+    color: grey;
+    font-size: 22px;
+}
+  
+.card .inner-button {
+    border: none;
+    outline: 0;
+    padding: 12px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+}
+
+.main-header{
+    margin-left: 45%;
+    margin-bottom: 10px;
+}
+
+/* .card button:hover {
+    opacity: 0.7;
+} */
+
+
+.product-pic{
+    width: 100px;
+}
+
+.card-group{
+    /* background-image: url("https://images.pexels.com/photos/2387818/pexels-photo-2387818.jpeg?cs=srgb&dl=pexels-adrien-olichon-2387818.jpg&fm=jpg://wallpaperset.com/w/full/c/4/8/45474.jpg"); */
+    /* background: #282828;
+    background: linear-gradient(135deg, #282828, #070707); */
+    background: #474747;
+    background: linear-gradient(135deg, #474747, #161616);
+}
+
+.prod-category{
+    color: lightcoral;
+}
+
+#x {
+    position: absolute;
+    background: red;
+    color: white;
+    top: -10px;
+    right: -10px;
+}
+
+.footer {
+   background-color: #cecece;
+   color: #fff;
+   padding: 10px 0;
+   text-align: center;
+   position: fixed;
+   width: 100%;
+   height: 4%;
+   bottom: 0;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+.footer p {
+    color: black;
+    margin: 3px 0;
+}
+
+.footer-hidden {
+   display: none;
+ }
+
+.products-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .cards {
+    width: calc(25% - 20px);
+    margin-bottom: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .cards {
+      width: calc(50% - 20px);
+    }
+  }
+  
+
+.home-header {
+   /* background-color: #212529; */
+   background: #474747;
+   background: linear-gradient(135deg, #474747, #161616);
+   color: #fff;
+   padding: 7px;
+   text-align: center;
+   border-top: 1px solid black;
+}
+
+.home-header {
+    /* background-color: #212529; */
+    background: #474747;
+    background: linear-gradient(135deg, #474747, #161616);
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    border-top: 1px solid black;
+}
+
+
+.home-section {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-around;
+   padding: 20px;
+   background: linear-gradient(135deg, #474747, #161616);
+}
+
+@media (max-width: 992px) {
+   .home-section {
+      justify-content: flex-start;
+   }
+}
+
+.product-home {
+   background-color: #fff;
+   border: 1px solid #ddd;
+   border-radius: 5px;
+   margin: 10px;
+   padding: 15px;
+   text-align: center;
+   width: calc(25% - 20px); /* Adjust the width to make the product slimmer */
+   box-sizing: border-box;
+   margin-right: auto; /* Align the last item in the row to the left */
+}
+
+@media (max-width: 768px) {
+   .product-home {
+      width: calc(50% - 20px);
+   }
+}
+
+.product-home img {
+    max-width: 100%;
+    height: 200px;
+    border-radius: 5px;
+}
+
+.product-home h3 {
+    color: #333;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.product-home h5 {
+    color: #333;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.product-home p {
+    color: #777;
+    font-size: 1em;
+}
+
+.add-to-cart-button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.add-to-cart-button:hover {
+   background-color: #45a049;
 }

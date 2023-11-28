@@ -1,0 +1,56 @@
+.verification-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+
+.verification-form {
+    font-family: 'Poppins';
+    margin: auto;
+    text-align: center; 
+    margin-top: 150px;
+    width: 70%;
+    border: 5px solid #ffffff;
+    background-color:rgba(18, 79, 192, 0.25);
+    padding: auto;
+    border-radius: 20px;
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+button {
+    font-family: 'Poppins';
+    background-color: #007BFF;
+    color: #fff;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#logins-btn{
+    margin-bottom: 10px;
+}
+
+#verification-top{
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
