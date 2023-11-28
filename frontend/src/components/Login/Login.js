@@ -6,7 +6,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './Login.css';
 import LoadingScreen from '../LoadingScreen/LoadingScreen';
 
-
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -94,26 +93,41 @@ const Login = () => {
         <div className="login-body">
             <LoadingScreen />
             <div className="login-form" style={{ display: "none" }}>
-                <form onSubmit={handleSubmit} className="container" action="/home" method="get">
-                    <h1>Login</h1>
-
-                    <div className="form-group">
-                        <label htmlFor="username"><b>Username</b></label>
-                        <input type="text" placeholder="Enter Username" name="username" className="form-control" onChange={(event) => setUsername(event.target.value)} required autoFocus />
+                <form onSubmit={handleSubmit} className="login-container" action="/home" method="get">
+                    <div className="login-header">
+                        <div className="login-header-text">Log in</div>
+                        <div className="login-underline"></div>
+                    </div>
+                    <div className="login-form-group">
+                        <div className="login-inputs">
+                            <div className="login-inputs-text">Username</div>
+                        </div>
+                            <div className="login-input">
+                                <input type="user" placeholder="Enter Username..." name="user" className="form-control" onChange={(event) => setUsername(event.target.value)} required autoFocus />
+                            </div>
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="password"><b>Password</b></label>
-                        <input type="password" placeholder="Enter Password" name="password" className="form-control" onChange={(event) => setPassword(event.target.value)} required />
+                    <div className="login-form-group">
+                        <div className="login-inputs">
+                            <div className="login-inputs-text">Password</div>
+                        </div>
+                            <div className="login-input">
+                                <input type="password" placeholder="Enter Password..." name="password" className="form-control" onChange={(event) => setPassword(event.target.value)} required />
+                        </div>
                     </div>
-
+                    
                     {(username && password) ? (
-                        <button className="btn btn-primary btn-rounded" type="submit">Login</button>
+                        <div className="login-submit-container">
+                            <button className="btn btn-primary btn-rounded" type="submit">Login</button>
+                        </div>
                     ) : (
+                        <div className="login-submit-container">
                         <button className="btn btn-primary btn-rounded" type="submit" disabled>Login</button>
+                        </div>
                     )}
 
                     <hr />
+                    <div className="login-submit-container">
                     <a className="btn btn-primary btn-rounded" type="submit" href="/registration">Register Here!</a>
                     {/* Toggle for showing/hiding forgot password form */}
                     <button
@@ -123,6 +137,7 @@ const Login = () => {
                     >
                         Forgot Password?
                     </button>
+                    </div>
 
                     {showForgotPassword && (
                         // Forgot password form
@@ -150,5 +165,4 @@ const Login = () => {
         </div>
     );
 };
-
 export default Login;

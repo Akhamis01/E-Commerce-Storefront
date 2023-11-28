@@ -31,7 +31,7 @@ const App = () => {
                     <Route exact path="/feedback" element={<Feedback/>}/>
                     <Route exact path="/orders" element={<Orders/>}/>
                     <Route exact path="/reset-password" element={<ResetPassword/>}/>
-                    <Route exact path="*" element={<NotFound/>}/>
+                    <Route exact path="*" element={<Login/>}/>
                 </Routes>
             </Fragment>
         </Router>

@@ -305,7 +305,7 @@ export default function Cart() {
                 className="btn btn-primary btn-block d-flex justify-content-between mt-3"
                 type="button"
               >
-                <span>
+                <span style={{ color: "white" }}>
                   Checkout<i className="fa fa-long-arrow-right ml-1"></i>
                 </span>
               </button>
@@ -316,7 +316,7 @@ export default function Cart() {
                 type="button"
                 disabled
               >
-                <span>
+                <span style={{ color: "white" }}>
                   Checkout<i className="fa fa-long-arrow-right ml-1"></i>
                 </span>
               </button>

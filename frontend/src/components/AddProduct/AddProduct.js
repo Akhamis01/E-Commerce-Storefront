@@ -12,7 +12,7 @@ const AddProduct = () => {
     const [element, setElement] = useState(false);
     const [disp, setDisp] = useState('block');
     const [disp2, setDisp2] = useState('none');
-    const [category, setCategory] = useState('Tshirt');
+    const [category, setCategory] = useState('Electronics');
     const [productID, setProductID] = useState('');
     const [price, setPrice] = useState(0);
     const [picture, setPicture] = useState('');
